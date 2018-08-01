@@ -1,0 +1,51 @@
+a {
+    text-decoration: none;
+    float: right;
+    margin: 7.5px;
+    font-size: 22px;
+    color: ffffff;
+}
+
+a:hover {
+    text-decoration: none;
+    color: 000000;
+}
+
+#title {
+    float: left;
+    font-size: 40px;
+}
+
+h1 {
+    float: left;
+}
+
+#header {
+    overflow: hidden;
+    background-color: #ffb347;
+    padding: 8px 10px;
+}
+
+#search1 {
+    margin: 12px;
+}
+
+#orders {
+    margin: 12px;
+}
+
+#order_form {
+    margin: 12px;
+}
+
+#edit {
+    margin: 12px;
+}
+input[type=text] {
+    margin: 1px;
+}
+
+input[type=submit] {
+    background-color: #ffb347;
+
+}
