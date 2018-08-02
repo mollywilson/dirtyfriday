@@ -1,40 +1,28 @@
 <?php
-$greeting = "Place your order!";
 include 'inc/connect.php';
+$greeting = "Place your order " . $_SESSION["username"] . "!";
 include 'inc/header.php';
 
 if (isset($_POST['submitted'])) {
 
-    $order_name = mysqli_real_escape_string($conn, $_POST['order_name']);
-    $order_name = strip_tags($order_name);
     $order_food = mysqli_real_escape_string($conn, $_POST['order_food']);
     $order_food = strip_tags($order_food);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $password = strip_tags($password);
 
-    if ((!empty($order_name)) && (!empty($order_food)) && (!empty($password))) {
-
-        $sql9 = "SELECT * FROM logIn WHERE name='" . $order_name . "' AND password='" . $password . "'";
-        $result = mysqli_query($conn, $sql9);
-
-        if (mysqli_num_rows($result) > 0) {
+    if (!empty($order_food)) {
 
             $sql2 = "INSERT INTO foodOrders (name, food, date) VALUES 
-                    ('$order_name', '$order_food', NOW())";
+                    ('".$_SESSION['username']."', '$order_food', NOW())";
 
             if (!mysqli_query($conn, $sql2)) {
                 die('Your order has NOT been placed.');
             } else {
                 header("location: orders.php");
-            }
-        } else {
-            echo "Your username or password is incorrect";
-        }
-    }
+            } //end of if order placed else
+        } //end of if empty
         else {
             echo "Please fill in your name and order";
-    }
-}
+    } //end of if empty else
+} //end of isset
 ?>
 
 <html>
@@ -42,10 +30,8 @@ if (isset($_POST['submitted'])) {
     <div id="order_form">
         <form method="post" action="index.php">
             <input type="hidden" name="submitted" value="true" />
-            <br>Name: <input type="text" name="order_name">
             <br>Order: <input type="text" name="order_food">
-            <br>Password: <input type="password" name="password">
-            <br> <input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
+            <input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
         </form>
     </div>
     <div id="search1">

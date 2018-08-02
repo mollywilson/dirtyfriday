@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <link rel="stylesheet" href="css/dirtyFriday.css">
@@ -7,6 +8,7 @@
 
         <div id="header">
             <a href="signup.php">Sign Up</a>
+            <a href="login.php">Log In</a>
             <a href="password.php">Change Password</a>
             <a href="orders.php"> Orders </a>
             <a href="index.php"> Home </a>
