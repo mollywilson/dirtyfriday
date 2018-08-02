@@ -20,6 +20,7 @@ include 'inc/connect.php';
             <br>Username: <input type="text" name="signup_name">
             <br>Email: <input type="text" name="signup_email">
             <br>Password: <input type="password" name="password">
+            <br>Confirm Password: <input type="password" name="cpassword">
             <br> <input type="submit" value="Sign Me Up!">
         </form>
     </body>
@@ -33,27 +34,35 @@ include 'inc/connect.php';
     $signup_email = mysqli_real_escape_string($conn, $_POST['signup_email']);
     $signup_email = strip_tags($signup_email);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    //$password = strip_tags($password);
+    $password = strip_tags($password);
+    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
+    $cpassword = strip_tags($cpassword);
 
     if ((!empty($signup_name)) && (!empty($signup_email)) && (!empty($password))) { //IF NOT EMPTY
 
-    include 'connect.php';
+        if ($password == $cpassword) { //passwords match
 
-        $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+            include 'connect.php';
 
-        $sql = "INSERT INTO logIn (name, email, password) VALUES 
+            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+
+            $sql = "INSERT INTO logIn (name, email, password) VALUES 
             ('$signup_name', '$signup_email', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
 
-    if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
-        die('Your user has NOT been created');
-    } //end of IF CANNOT BE STORED
-    else {
-        $_SESSION["username"] = $signup_name;
-        header("location: index.php");
-        } //END OF CANNOT BE STORED ELSE
+            if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
+                die('Your user has NOT been created');
+            } //end of IF CANNOT BE STORED
+            else {
+                $_SESSION["username"] = $signup_name;
+                header("location: index.php");
+            } //END OF CANNOT BE STORED ELSE
+        } //end of passwords match
+        else {
+            echo "Your passwords do not match!";
+        }
     } //END OF IF NOT EMPTY
     else {
-    echo "Please fill in your details!";
+        echo "Please fill in your details!";
         } //END OF IF NOT EMPTY ELSE
     } // end of if isset
 ?>
