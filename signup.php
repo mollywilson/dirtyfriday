@@ -34,6 +34,7 @@ include 'inc/connect.php';
     $signup_email = strip_tags($signup_email);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $password = strip_tags($password);
+    $password = password_hash($password, PASSWORD_BCRYPT);
 
     if ((!empty($signup_name)) && (!empty($signup_email)) && (!empty($password))) {
 
@@ -46,6 +47,7 @@ include 'inc/connect.php';
         die('Your user has NOT been created');
     } //end of nested if statement
     else {
+        $_SESSION["username"] = $signup_name;
         header("location: index.php");
         }
     } else {
