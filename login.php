@@ -28,27 +28,39 @@
 
 <?php
 
-    if (isset($_POST['submitted'])) {
+    if (isset($_POST['submitted'])) { //if form is submitted
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $username = strip_tags($username);
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
-        $password = strip_tags($password);
+        $password = $_POST['password'];
+        //$password = mysqli_real_escape_string($conn, $_POST['password']);
+        //$password = strip_tags($password);
+        //$password = password_hash($password, PASSWORD_BCRYPT);
 
-        $sql = "SELECT * FROM logIn WHERE name='".$username."' AND password='".$password."'"; //sql command to test user password
-        $result = mysqli_query($conn, $sql); //user exists
+        $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
+        $result = mysqli_query($conn, $dbpassword);
+        //echo "molly" . $result['password'];
+        //$sql = "SELECT * FROM logIn WHERE name='".$username."' AND password='".$password."'"; //match username and password
+        //$result = mysqli_query($conn, $sql); //user exists
 
-        if ((!empty($username)) && (!empty($password))) {
+        if ((!empty($username)) && (!empty($password))) { //if form not empty
 
-            if (mysqli_num_rows($result) > 0) {
-                $_SESSION["username"] = $username;
-                header("Location: index.php");
-            }// end of user check
+            if (mysqli_num_rows($result) > 0) { //if username exists
+                $row = $result->fetch_array();
+                    if (password_verify($password, $row['password'])) {
+                        //echo "SUCCESS";
+                        $_SESSION["username"] = $username;
+                        header("Location: index.php");
+                    }// end of password verify
             else {
                 echo "Your username or password is incorrect";
-            } // end of user else
-        }// end of if empty
+            } // end of password verify else
+        }// end of if username exists
+            else {
+                echo "Your username or password is incorrect";
+            } //end of username exists else
+        }//end of if not empty
         else {
             echo "Please fill in your details";
-        }// end of if empty else
+        }// end of if not empty else
     }// end of isset
 ?>
