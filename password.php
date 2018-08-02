@@ -3,7 +3,8 @@
     include 'inc/header.php';
     include 'inc/connect.php';
 
-    $message = "Please click the link to change your password!";
+    $message = "Please click the link to change your password!" . "<br />\n"
+                . "molly.localhost/dirtyFriday/change.php";
 ?>
 
 <html>

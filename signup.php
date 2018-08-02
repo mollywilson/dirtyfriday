@@ -1,6 +1,7 @@
 <?php
 $greeting = "Sign Up";
 include 'inc/connect.php';
+include 'inc/header2.php'
 ?>
 <html>
     <head>
@@ -8,13 +9,6 @@ include 'inc/connect.php';
         <title>Dirty Friday</title>
     </head>
     <body>
-        <div id="header">
-            <a href="signup.php">Sign Up</a>
-            <a href="login.php">Log In</a>
-            <a href="" id="title">Dirty Fridays: <i><?php echo $greeting; ?></i></a>
-        </div>
-
-
         <form method="post" action="signup.php">
             <input type="hidden" name="submitted" value="true" />
             <br>Username: <input type="text" name="signup_name">
@@ -38,7 +32,7 @@ include 'inc/connect.php';
     $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
     $cpassword = strip_tags($cpassword);
 
-    if ((!empty($signup_name)) && (!empty($signup_email)) && (!empty($password))) { //IF NOT EMPTY
+    if ((!empty($signup_name)) && (!empty($signup_email)) && (!empty($password)) && (!empty($cpassword))) { //IF NOT EMPTY
 
         if ($password == $cpassword) { //passwords match
 
