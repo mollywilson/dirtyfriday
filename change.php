@@ -19,23 +19,23 @@
 <?php
 if (isset($_POST['submitted'])) { //IF ISSET
 
-    $name = mysqli_real_escape_string($conn, $_POST['username']);
-    $name = strip_tags($name);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $username = strip_tags($username);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $password = strip_tags($password);
     $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
     $cpassword = strip_tags($cpassword);
 
-    if ((!empty($name)) && (!empty($password)) && !empty($cpassword)) { //IF NOT EMPTY
+    if ((!empty($username)) && (!empty($password)) && !empty($cpassword)) { //IF NOT EMPTY
 
         if ($password == $cpassword) { //passwords match
 
-            $sql = "SELECT * FROM logIn WHERE name='".$name."'"; //check order is theirs
+            $sql = "SELECT * FROM logIn WHERE name='".$username."'"; //check order is theirs
             $result = mysqli_query($conn, $sql); //user exists
 
             $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
 
-            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE name='".$name."'"; //sql to edit order
+            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE name='".$username."'"; //sql to edit order
 
             include 'inc/connect.php';
 
@@ -45,9 +45,9 @@ if (isset($_POST['submitted'])) { //IF ISSET
                     die('Your user has NOT been created');
                 } //end of if cannot be changed
                 else {
-                    $_SESSION["username"] = $name;
-                    echo "Password changed";
-                    //header("location: index.php");
+                    $_SESSION["username"] = $username;
+                    //echo "Password changed";
+                    header("location: index.php");
                 } //END OF CANNOT BE STORED ELSE
             }//end of if user exists
             else {

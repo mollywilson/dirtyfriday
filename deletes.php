@@ -7,7 +7,7 @@ include 'inc/header.php';
     <body>
     <form method="post" action="deletes.php">
         <input type="hidden" name="submitted" value="true" />
-        <br>Order Number: <input type="text" name="order_number">
+        <br>Order Number: <input type="text" name="id">
         <br> <input type="submit" name="submit" value="Delete my order!">
     </form>
     </body>
@@ -17,14 +17,14 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) { //if form is submitted
 
-    $order_number = mysqli_real_escape_string($conn, $_POST['order_number']); //prevent sql injection
-    $order_number = strip_tags($order_number);
+    $id = mysqli_real_escape_string($conn, $_POST['id']); //prevent sql injection
+    $id = strip_tags($id);
 
-    $sql = "SELECT * FROM foodOrders WHERE orderID='".$order_number."' AND name='".$_SESSION["username"]."'"; //sql command to test if entry exists
+    $sql = "SELECT * FROM foodOrders WHERE orderID='".$id."' AND name='".$_SESSION["username"]."'"; //sql command to test if entry exists
     $result = mysqli_query($conn, $sql); //entry exists
-    $sql2 = "DELETE FROM foodOrders WHERE orderID='".$order_number."'"; //sql command to delete entry
+    $sql2 = "DELETE FROM foodOrders WHERE orderID='".$id."'"; //sql command to delete entry
 
-    if (!empty($order_number)) { //if order number not empty
+    if (!empty($id)) { //if order number not empty
 
         if (mysqli_num_rows($result) > 0) { //entry belongs to user
 

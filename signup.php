@@ -42,37 +42,45 @@ include 'inc/header2.php'
                 if (mysqli_num_rows($result) < 0) { //if username not exist
 
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        $vemail = $email;
 
-                        if ($password == $cpassword) { //passwords match
+                        $sql5 = "SELECT * FROM logIn WHERE email='".$email."'";
+                        $result1 = mysqli_query($conn, $sql5);
 
-                            include 'connect.php';
+                        if (mysqli_num_rows($result1) < 0) { //unique email
+                            $vemail = $email;
 
-                            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+                            if ($password == $cpassword) { //passwords match
 
+                                include 'connect.php';
 
-                            $sql = "INSERT INTO logIn (name, email, password) VALUES 
-                            ('$username', '$vemail', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
+                                $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
 
-                            if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
-                                die('Your user has NOT been created');
-                            } //end of IF CANNOT BE STORED
+                                $sql = "INSERT INTO logIn (name, email, password) VALUES 
+                                ('$username', '$vemail', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
+
+                                if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
+                                    die('Your user has NOT been created');
+                                } //end of IF CANNOT BE STORED
+                                else {
+                                    $_SESSION["username"] = $username;
+                                    header("location: index.php");
+                                } //END OF CANNOT BE STORED ELSE
+                            } //end of passwords match
                             else {
-                                $_SESSION["username"] = $username;
-                                header("location: index.php");
-                            } //END OF CANNOT BE STORED ELSE
-                        } //end of passwords match
+                                echo "Your passwords do not match!";
+                            } //end of passwords match else
+                        } //end of unique email
                         else {
-                            echo "Your passwords do not match!";
-                        }
+                            echo "Sorry, this email has already been used!";
+                            } //end of unique email else
                     }//end of validate email
                     else {
                         echo "Please enter a valid email!";
-                    } //end of valid email else
+                        } //end of valid email else
                 }//end of username does not exist yet
                 else {
                     echo "Sorry, this username is taken!";
-                }
+                    }
                 } //END OF IF NOT EMPTY
             else {
                 echo "Please fill in your details!";
