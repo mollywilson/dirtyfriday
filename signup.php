@@ -3,6 +3,7 @@ $greeting = "Sign Up";
 include 'inc/connect.php';
 include 'inc/header2.php'
 ?>
+
 <html>
     <head>
         <link rel="stylesheet" href="css/dirtyFriday.css">
@@ -11,8 +12,8 @@ include 'inc/header2.php'
     <body>
         <form method="post" action="signup.php">
             <input type="hidden" name="submitted" value="true" />
-            <br>Username: <input type="text" name="signup_name">
-            <br>Email: <input type="text" name="signup_email">
+            <br>Username: <input type="text" name="username">
+            <br>Email: <input type="text" name="email">
             <br>Password: <input type="password" name="password">
             <br>Confirm Password: <input type="password" name="cpassword">
             <br> <input type="submit" value="Sign Me Up!">
@@ -23,40 +24,47 @@ include 'inc/header2.php'
 <?php
     if (isset($_POST['submitted'])) { //IF ISSET
 
-    $signup_name = mysqli_real_escape_string($conn, $_POST['signup_name']);
-    $signup_name = strip_tags($signup_name);
-    $signup_email = mysqli_real_escape_string($conn, $_POST['signup_email']);
-    $signup_email = strip_tags($signup_email);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $password = strip_tags($password);
-    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
-    $cpassword = strip_tags($cpassword);
+            $username = mysqli_real_escape_string($conn, $_POST['username']);
+            $username = strip_tags($username);
+            $email = mysqli_real_escape_string($conn, $_POST['email']);
+            $email = strip_tags($email);
+            $password = mysqli_real_escape_string($conn, $_POST['password']);
+            $password = strip_tags($password);
+            $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
+            $cpassword = strip_tags($cpassword);
 
-    if ((!empty($signup_name)) && (!empty($signup_email)) && (!empty($password)) && (!empty($cpassword))) { //IF NOT EMPTY
+            if ((!empty($username)) && (!empty($email)) && (!empty($password)) && (!empty($cpassword))) { //IF NOT EMPTY
 
-        if ($password == $cpassword) { //passwords match
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $vemail = $email;
 
-            include 'connect.php';
+                    if ($password == $cpassword) { //passwords match
 
-            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+                        include 'connect.php';
 
-            $sql = "INSERT INTO logIn (name, email, password) VALUES 
-            ('$signup_name', '$signup_email', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
+                        $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
 
-            if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
-                die('Your user has NOT been created');
-            } //end of IF CANNOT BE STORED
+                        $sql = "INSERT INTO logIn (name, email, password) VALUES 
+                        ('$username', '$vemail', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
+
+                        if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
+                            die('Your user has NOT been created');
+                        } //end of IF CANNOT BE STORED
+                        else {
+                            $_SESSION["username"] = $username;
+                            header("location: index.php");
+                        } //END OF CANNOT BE STORED ELSE
+                    } //end of passwords match
+                    else {
+                        echo "Your passwords do not match!";
+                    }
+                }//end of validate email
+                else {
+                    echo "Please enter a valid email!";
+                } //end of valid email else
+                } //END OF IF NOT EMPTY
             else {
-                $_SESSION["username"] = $signup_name;
-                header("location: index.php");
-            } //END OF CANNOT BE STORED ELSE
-        } //end of passwords match
-        else {
-            echo "Your passwords do not match!";
-        }
-    } //END OF IF NOT EMPTY
-    else {
-        echo "Please fill in your details!";
-        } //END OF IF NOT EMPTY ELSE
-    } // end of if isset
-?>
+                echo "Please fill in your details!";
+                } //END OF IF NOT EMPTY ELSE
+            } // end of if isset
+        ?>
