@@ -5,8 +5,7 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) {
 
-    $order = mysqli_real_escape_string($conn, $_POST['order']);
-    $order = strip_tags($order);
+    $order = filter($_POST['order']);
 
     if (!empty($order)) {
 

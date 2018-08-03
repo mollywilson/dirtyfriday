@@ -16,3 +16,16 @@
         </div>
     </body>
 </html>
+
+<?php
+
+    include 'connect.php';
+
+    function filter($string) {
+        $string = strip_tags($string);
+        $string = mysqli_real_escape_string($conn, $string);
+
+        return $string;
+    }
+
+?>

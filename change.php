@@ -19,12 +19,9 @@
 <?php
 if (isset($_POST['submitted'])) { //IF ISSET
 
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $username = strip_tags($username);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $password = strip_tags($password);
-    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
-    $cpassword = strip_tags($cpassword);
+    $username = filter($_POST['username']);
+    $password = filter($_POST['password']);
+    $cpassword = filter($_POST['cpassword']);
 
     if ((!empty($username)) && (!empty($password)) && !empty($cpassword)) { //IF NOT EMPTY
 

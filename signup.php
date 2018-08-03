@@ -51,14 +51,14 @@ include 'inc/header2.php'
 
                             if ($password == $cpassword) { //passwords match
 
-                                include 'connect.php';
+                                //include 'connect.php';
 
                                 $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
 
                                 $sql = "INSERT INTO logIn (name, email, password) VALUES 
                                 ('$username', '$vemail', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
 
-                                if (!mysqli_query($conn, $sql)) { //IF DETAILS CANNOT BE STORED
+                                if (!mysqli_query($conn, $sql3)) { //IF DETAILS CANNOT BE STORED
                                     die('Your user has NOT been created');
                                 } //end of IF CANNOT BE STORED
                                 else {

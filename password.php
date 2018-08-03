@@ -10,7 +10,7 @@
 <html>
     <form method="post" action="password.php">
         <input type="hidden" name="submitted" value="true" />
-        <br><label>Name:</label> <input type="text" name="user_name">
+        <br><label>Name:</label> <input type="text" name="username">
         <br><label>Email:</label> <input type="text" name="email">
         <br><input type="submit" value="Send me an Email!">
     </form>
@@ -21,10 +21,8 @@
 
     if (isset($_POST['submitted'])) { //if form submitted
 
-        $name = mysqli_real_escape_string($conn, $_POST['user_name']);
-        $name = strip_tags($name);
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $email = strip_tags($email);
+        $name = filter($_POST['username']);
+        $email = filter($_POST['email']);
 
         $sql = "SELECT * FROM logIn WHERE name='".$name."' AND email='".$email."'";
         $result = mysqli_query($conn, $sql);

@@ -29,18 +29,12 @@
 <?php
 
     if (isset($_POST['submitted'])) { //if form is submitted
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $username = strip_tags($username);
-        $password = $_POST['password'];
-        //$password = mysqli_real_escape_string($conn, $_POST['password']);
-        //$password = strip_tags($password);
-        //$password = password_hash($password, PASSWORD_BCRYPT);
+
+        $username = filter($_POST['username']);
+        $password = filter($_POST['password']);
 
         $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
         $result = mysqli_query($conn, $dbpassword);
-        //echo "molly" . $result['password'];
-        //$sql = "SELECT * FROM logIn WHERE name='".$username."' AND password='".$password."'"; //match username and password
-        //$result = mysqli_query($conn, $sql); //user exists
 
         if ((!empty($username)) && (!empty($password))) { //if form not empty
 

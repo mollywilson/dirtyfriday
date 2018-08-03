@@ -17,8 +17,7 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) { //if form is submitted
 
-    $id = mysqli_real_escape_string($conn, $_POST['id']); //prevent sql injection
-    $id = strip_tags($id);
+    $id = filter($_POST['id']);
 
     $sql = "SELECT * FROM foodOrders WHERE orderID='".$id."' AND name='".$_SESSION["username"]."'"; //sql command to test if entry exists
     $result = mysqli_query($conn, $sql); //entry exists
