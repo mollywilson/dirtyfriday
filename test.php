@@ -52,6 +52,18 @@
 
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) { //if email is valid
                         echo "This email is valid";
+
+                        if ($password == $cpassword) { //if passwords match
+                            echo "The passwords match!" . $password . $cpassword;
+
+                            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+
+                            echo "Password: " . $hash;
+
+                        } //close passwords match
+                        else { //passwords don't match
+                            echo "These passwords do not match";
+                        } //close passwords dont match
                     } //close if email valid
                     else { //email not valid
                         echo "Sorry, this email is not valid";
