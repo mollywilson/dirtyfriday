@@ -32,34 +32,40 @@
         $password = filter($_POST['password']);
         $cpassword = filter($_POST['cpassword']);
 
-        //first two mysql commands
-
-
         if ((!empty($username)) && (!empty($email)) && (!empty($password)) && (!empty($cpassword))) { //if form is not empty DO
-            echo "The form is submitted and not empty";
+            //echo "The form is submitted and not empty";
 
             $sql = "SELECT * FROM logIn WHERE name='".$username."'";
             $result = mysqli_query($conn, $sql);
 
             if (($result->num_rows) == 0) { //if username not taken DO
-                echo "The username is available!";
+                //echo "The username is available!";
 
                 $sql2 = "SELECT * FROM logIn WHERE email='".$email."'";
                 $result1 = mysqli_query($conn, $sql2);
 
                 if (($result1->num_rows == 0)) { //if email not taken DO
-                    echo "This email is available";
+                    //echo "This email is available";
 
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) { //if email is valid
-                        echo "This email is valid";
+                        //echo "This email is valid";
 
                         if ($password == $cpassword) { //if passwords match
-                            echo "The passwords match!" . $password . $cpassword;
+                            //echo "The passwords match!" . $password . $cpassword;
 
                             $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+                            //echo "Password: " . $hash;
 
-                            echo "Password: " . $hash;
+                            $sql3 = "INSERT INTO logIn (name, email, password) VALUES ('$username', '$email', '$hash')";
 
+                            if (!mysqli_query($conn, $sql3)) { //if user not created
+                                die('Your user has NOT been created');
+                            } //close user not created
+                            else { //user is created
+                                $_SESSION["username"] = $username;
+                                header("location: index.php");
+                                //echo "User has been created";
+                            } //close user is created
                         } //close passwords match
                         else { //passwords don't match
                             echo "These passwords do not match";

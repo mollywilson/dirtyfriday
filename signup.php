@@ -1,89 +1,93 @@
 <?php
 $greeting = "Sign Up";
 include 'inc/connect.php';
-include 'inc/header2.php'
+include 'inc/header2.php';
 ?>
 
-<html>
+    <html>
     <head>
         <link rel="stylesheet" href="css/dirtyFriday.css">
         <title>Dirty Friday</title>
     </head>
     <body>
-        <form method="post" action="signup.php">
-            <input type="hidden" name="submitted" value="true" />
-            <br>Username: <input type="text" name="username">
-            <br>Email: <input type="text" name="email">
-            <br>Password: <input type="password" name="password">
-            <br>Confirm Password: <input type="password" name="cpassword">
-            <br> <input type="submit" value="Sign Me Up!">
-        </form>
+    <form method="post" action="test.php">
+        <input type="hidden" name="submitted" value="true" />
+        <br>Username: <input type="text" name="username">
+        <br>Email: <input type="text" name="email">
+        <br>Password: <input type="password" name="password">
+        <br>Confirm Password: <input type="password" name="cpassword">
+        <br> <input type="submit" value="Sign Me Up!">
+    </form>
     </body>
-</html>
+    </html>
 
 <?php
-    if (isset($_POST['submitted'])) { //IF ISSET
 
-            $username = mysqli_real_escape_string($conn, $_POST['username']);
-            $username = strip_tags($username);
-            $email = mysqli_real_escape_string($conn, $_POST['email']);
-            $email = strip_tags($email);
-            $password = mysqli_real_escape_string($conn, $_POST['password']);
-            $password = strip_tags($password);
-            $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
-            $cpassword = strip_tags($cpassword);
+if (isset($_POST['submitted'])) { //if the form has been submitted
+    echo "The form has been submitted"; // if submitted DO
 
+    //filter all the user inputs
+    $username = filter($_POST['username']);
+    $email = filter($_POST['email']);
+    $password = filter($_POST['password']);
+    $cpassword = filter($_POST['cpassword']);
 
-            if ((!empty($username)) && (!empty($email)) && (!empty($password)) && (!empty($cpassword))) { //IF NOT EMPTY
+    if ((!empty($username)) && (!empty($email)) && (!empty($password)) && (!empty($cpassword))) { //if form is not empty DO
+        //echo "The form is submitted and not empty";
 
-                $sql4 = "SELECT * FROM logIn WHERE name='".$username."'";
-                $result = mysqli_query($conn, $sql4);
+        $sql = "SELECT * FROM logIn WHERE name='".$username."'";
+        $result = mysqli_query($conn, $sql);
 
-                if (mysqli_num_rows($result) < 0) { //if username not exist
+        if (($result->num_rows) == 0) { //if username not taken DO
+            //echo "The username is available!";
 
-                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $sql2 = "SELECT * FROM logIn WHERE email='".$email."'";
+            $result1 = mysqli_query($conn, $sql2);
 
-                        $sql5 = "SELECT * FROM logIn WHERE email='".$email."'";
-                        $result1 = mysqli_query($conn, $sql5);
+            if (($result1->num_rows == 0)) { //if email not taken DO
+                //echo "This email is available";
 
-                        if (mysqli_num_rows($result1) < 0) { //unique email
-                            $vemail = $email;
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) { //if email is valid
+                    //echo "This email is valid";
 
-                            if ($password == $cpassword) { //passwords match
+                    if ($password == $cpassword) { //if passwords match
+                        //echo "The passwords match!" . $password . $cpassword;
 
-                                //include 'connect.php';
+                        $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+                        //echo "Password: " . $hash;
 
-                                $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+                        $sql3 = "INSERT INTO logIn (name, email, password) VALUES ('$username', '$email', '$hash')";
 
-                                $sql = "INSERT INTO logIn (name, email, password) VALUES 
-                                ('$username', '$vemail', '$hash')"; //MYSQL COMMAND TO STORE DETAILS TO DATABASE
-
-                                if (!mysqli_query($conn, $sql3)) { //IF DETAILS CANNOT BE STORED
-                                    die('Your user has NOT been created');
-                                } //end of IF CANNOT BE STORED
-                                else {
-                                    $_SESSION["username"] = $username;
-                                    header("location: index.php");
-                                } //END OF CANNOT BE STORED ELSE
-                            } //end of passwords match
-                            else {
-                                echo "Your passwords do not match!";
-                            } //end of passwords match else
-                        } //end of unique email
-                        else {
-                            echo "Sorry, this email has already been used!";
-                            } //end of unique email else
-                    }//end of validate email
-                    else {
-                        echo "Please enter a valid email!";
-                        } //end of valid email else
-                }//end of username does not exist yet
-                else {
-                    echo "Sorry, this username is taken!";
-                    }
-                } //END OF IF NOT EMPTY
-            else {
-                echo "Please fill in your details!";
-                } //END OF IF NOT EMPTY ELSE
-            } // end of if isset
-        ?>
+                        if (!mysqli_query($conn, $sql3)) { //if user not created
+                            die('Your user has NOT been created');
+                        } //close user not created
+                        else { //user is created
+                            $_SESSION["username"] = $username;
+                            header("location: index.php");
+                            //echo "User has been created";
+                        } //close user is created
+                    } //close passwords match
+                    else { //passwords don't match
+                        echo "These passwords do not match";
+                    } //close passwords dont match
+                } //close if email valid
+                else { //email not valid
+                    echo "Sorry, this email is not valid";
+                } //close email not valid
+            }//close email not taken
+            else { //if email taken
+                echo "Sorry, this email address has already been used!";
+            } //close email taken
+        }//close if username not taken
+        else { //the username is taken
+            echo "Sorry, this username is taken!";
+        } //close username is taken
+    } //close if not empty
+    else { //if empty (else)
+        echo "Please fill in your details!";
+    } //if empty close
+} //close if submitted
+else { //if not submitted (else)
+    echo "The form has not been submitted"; //if form submitted else do
+} //close if submitted else
+?>
