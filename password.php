@@ -3,6 +3,10 @@
     include 'inc/header.php';
     include 'inc/connect.php';
 
+
+    $url = "http://molly.localhost/dirtyFriday/change.php";
+    $admin_name = "Molly Wilson";
+    $admin_email = "molly@Mollys-MBP.magmadigital.co.uk";
     $message = "Please click the link to change your password!" . "<br />\n"
                 . "molly.localhost/dirtyFriday/change.php";
 ?>
