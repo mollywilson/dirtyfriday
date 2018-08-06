@@ -2,6 +2,8 @@
     $greeting = "Change your Password";
     include 'inc/header2.php';
     include 'inc/connect.php';
+
+    echo $_GET['key'];
 ?>
 
 <html>

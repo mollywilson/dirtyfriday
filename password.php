@@ -5,10 +5,10 @@
 
 
     $url = "http://molly.localhost/dirtyFriday/change.php";
-    $admin_name = "Molly Wilson";
+    $admin_name = "Dirty Fridays";
     $admin_email = "molly@Mollys-MBP.magmadigital.co.uk";
-    $message = "Please click the link to change your password!" . "<br />\n"
-                . "molly.localhost/dirtyFriday/change.php";
+    $message = "Please click the link to change your password!" . "\n";
+
 ?>
 
 <html>
@@ -41,7 +41,7 @@
                     $email_hash = password_hash($email, PASSWORD_BCRYPT);
                 }
 
-                $link = "<a href='http://molly.localhost/dirtyFriday/change.php?key=".$email_hash."&reset=".$password."'> Click To Reset password</a>";
+                $link = "http://molly.localhost/dirtyFriday/change.php?key=".$email_hash."";
 
                 mail("$email", "Dirty Fridays: Forgot my Password", "$message" . "$link");
                 echo "Your email has been sent!";
