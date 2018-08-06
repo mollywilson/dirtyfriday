@@ -42,6 +42,7 @@
                 }
 
                 $link = "http://molly.localhost/dirtyFriday/change.php?key=".$email_hash."";
+                $_SESSION["email"] = $email;
 
                 mail("$email", "Dirty Fridays: Forgot my Password", "$message" . "$link");
                 echo "Your email has been sent!";

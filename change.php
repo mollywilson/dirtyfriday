@@ -2,15 +2,12 @@
     $greeting = "Change your Password";
     include 'inc/header2.php';
     include 'inc/connect.php';
-
-    echo $_GET['key'];
 ?>
 
 <html>
     <body>
         <form method="post" action="change.php">
             <input type="hidden" name="submitted" value="true" />
-            <br><label>Username:</label> <input type="text" name="username">
             <br>Password: <input type="password" name="password">
             <br>Confirm Password: <input type="password" name="cpassword">
             <br> <input type="submit" value="Change my Password">
@@ -23,32 +20,30 @@ if (isset($_POST['submitted'])) { //IF ISSET
 
     include 'inc/filter.php';
 
-    $username = filter($_POST['username']);
     $password = filter($_POST['password']);
     $cpassword = filter($_POST['cpassword']);
 
-    if ((!empty($username)) && (!empty($password)) && !empty($cpassword)) { //IF NOT EMPTY
+    if ((!empty($password)) && !empty($cpassword)) { //IF NOT EMPTY
 
         if ($password == $cpassword) { //passwords match
 
-            $sql = "SELECT * FROM logIn WHERE name='".$username."'"; //check order is theirs
+            $sql = "SELECT * FROM logIn WHERE email='".$_SESSION["email"]."'"; //check order is theirs
             $result = mysqli_query($conn, $sql); //user exists
 
             $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
 
-            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE name='".$username."'"; //sql to edit order
+            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'"; //sql to edit order
 
             include 'inc/connect.php';
 
-            if (mysqli_num_rows($result) > 0) { //if username exists
+            if (mysqli_num_rows($result) == 1) { //if username exists
 
                 if (!mysqli_query($conn, $sql2)) { //IF password cannot be changed
                     die('Your user has NOT been created');
                 } //end of if cannot be changed
-                else {
-                    $_SESSION["username"] = $username;
-                    //echo "Password changed";
-                    header("location: index.php");
+                else {;
+                    echo "Password changed";
+                    header("location: login.php");
                 } //END OF CANNOT BE STORED ELSE
             }//end of if user exists
             else {
