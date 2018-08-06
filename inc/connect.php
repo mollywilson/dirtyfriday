@@ -14,6 +14,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-session_start();
-
+    if(!isset($_SESSION)) {
+        session_start();
+    }
 ?>

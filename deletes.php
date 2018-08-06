@@ -17,7 +17,7 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) { //if form is submitted
 
-    $id = filter($_POST['id']);
+    $id = $_POST['id'];
 
     $sql = "SELECT * FROM foodOrders WHERE orderID='".$id."' AND name='".$_SESSION["username"]."'"; //sql command to test if entry exists
     $result = mysqli_query($conn, $sql); //entry exists

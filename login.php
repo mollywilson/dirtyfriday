@@ -1,8 +1,13 @@
-
-
 <?php
     include 'inc/connect.php';
     $greeting = "Log In!";
+
+    //function filter($string) {
+    //    $string = strip_tags($string);
+    //    $string = mysqli_real_escape_string($conn, $string);
+
+    //    return $string;
+    //}
 ?>
 
 <html>
@@ -11,6 +16,7 @@
         <title>Dirty Friday</title>
     </head>
     <body>
+
         <div id="header">
         <a href="signup.php">Sign Up</a>
         <a href="login.php">Log In</a>
@@ -30,8 +36,8 @@
 
     if (isset($_POST['submitted'])) { //if form is submitted
 
-        $username = filter($_POST['username']);
-        $password = filter($_POST['password']);
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
         $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
         $result = mysqli_query($conn, $dbpassword);

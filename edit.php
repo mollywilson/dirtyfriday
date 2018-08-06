@@ -8,8 +8,8 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) { //if submitted
 
-    $id = filter($_POST['id']);
-    $order = filter($_POST['order']);
+    $id = $_POST['id'];
+    $order = $_POST['order'];
 
     $sql = "SELECT * FROM foodOrders WHERE name='".$_SESSION["username"]."' AND orderID='".$id."'"; //check order is theirs
     $result = mysqli_query($conn, $sql); //user exists

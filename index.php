@@ -5,7 +5,7 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) {
 
-    $order = filter($_POST['order']);
+    $order = $_POST['order'];
 
     if (!empty($order)) {
 

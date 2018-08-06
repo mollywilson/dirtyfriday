@@ -10,7 +10,7 @@ include 'inc/header2.php';
         <title>Dirty Friday</title>
     </head>
     <body>
-    <form method="post" action="test.php">
+    <form method="post" action="signup.php">
         <input type="hidden" name="submitted" value="true" />
         <br>Username: <input type="text" name="username">
         <br>Email: <input type="text" name="email">
@@ -24,7 +24,7 @@ include 'inc/header2.php';
 <?php
 
 if (isset($_POST['submitted'])) { //if the form has been submitted
-    echo "The form has been submitted"; // if submitted DO
+    //echo "The form has been submitted"; // if submitted DO
 
     //filter all the user inputs
     $username = filter($_POST['username']);
@@ -88,6 +88,6 @@ if (isset($_POST['submitted'])) { //if the form has been submitted
     } //if empty close
 } //close if submitted
 else { //if not submitted (else)
-    echo "The form has not been submitted"; //if form submitted else do
+    //echo "The form has not been submitted"; //if form submitted else do
 } //close if submitted else
 ?>
