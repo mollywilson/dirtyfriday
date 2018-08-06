@@ -26,6 +26,7 @@ include 'inc/header2.php';
 if (isset($_POST['submitted'])) { //if the form has been submitted
     //echo "The form has been submitted"; // if submitted DO
 
+    include 'inc/filter.php';
     //filter all the user inputs
     $username = filter($_POST['username']);
     $email = filter($_POST['email']);

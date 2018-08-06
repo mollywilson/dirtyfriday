@@ -19,6 +19,8 @@
 <?php
 if (isset($_POST['submitted'])) { //IF ISSET
 
+    include 'inc/filter.php';
+
     $username = filter($_POST['username']);
     $password = filter($_POST['password']);
     $cpassword = filter($_POST['cpassword']);

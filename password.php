@@ -25,6 +25,8 @@
 
     if (isset($_POST['submitted'])) { //if form submitted
 
+        include 'inc/filter.php';
+
         $name = filter($_POST['username']);
         $email = filter($_POST['email']);
 
@@ -33,9 +35,15 @@
 
         if ((!empty($name)) && (!empty($email))) { //if not empty
 
-            if (mysqli_num_rows($result) > 0) { //if name and email match
+            if (mysqli_num_rows($result) == 1) { //if name and email match
 
-                mail("$email", "Dirty Fridays: Forgot my Password", "$message");
+                while ($row = mysqli_fetch_array($result)) {
+                    $email_hash = password_hash($email, PASSWORD_BCRYPT);
+                }
+
+                $link = "<a href='http://molly.localhost/dirtyFriday/change.php?key=".$email_hash."&reset=".$password."'> Click To Reset password</a>";
+
+                mail("$email", "Dirty Fridays: Forgot my Password", "$message" . "$link");
                 echo "Your email has been sent!";
             }//end of if name and email match
             else {

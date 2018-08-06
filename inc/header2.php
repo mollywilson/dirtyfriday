@@ -12,17 +12,3 @@
     </div>
     </body>
 </html>
-
-<?php
-
-    function filter($string) {
-
-        include 'connect.php';
-
-        $string = strip_tags($string);
-        $string = mysqli_real_escape_string($conn, $string);
-
-        return $string;
-}
-
-?>
