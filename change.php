@@ -41,8 +41,8 @@ if (isset($_POST['submitted'])) { //IF ISSET
                 if (!mysqli_query($conn, $sql2)) { //IF password cannot be changed
                     die('Your user has NOT been created');
                 } //end of if cannot be changed
-                else {;
-                    echo "Password changed";
+                else {
+                    //echo "Password changed";
                     header("location: login.php");
                 } //END OF CANNOT BE STORED ELSE
             }//end of if user exists
