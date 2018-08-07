@@ -8,36 +8,43 @@ include 'inc/header.php';
 
     function edit() {
 
-        include 'inc/connect.php';
-        $id = $_POST['id'];
-        $order = $_POST['order'];
+        global $conn;
+        include 'inc/filter.php';
+        $id = filter($_POST['id']);
+        $order = filter ($_POST['order']);
+
+        $errors = [];
+
+        if ((empty($id)) || (empty($order))) { //if empty
+            $errors[] = 'You must enter an ID and an order';
+        }
 
         $sql = "SELECT * FROM foodOrders WHERE name='".$_SESSION["username"]."' AND orderID='".$id."'"; //check order is theirs
         $result = mysqli_query($conn, $sql); //user exists
 
+        if (mysqli_num_rows($result) == 0) {
+            $errors[] = 'You can only edit your own order';
+        }
+
         $sql2 = "UPDATE foodOrders SET food='".$order."' WHERE orderID='".$id."'"; //sql to edit order
 
-        if ((empty($id)) && (empty($order))) { //if empty
-            echo "Please fill in the form" . "<br />\n";
-        }
+        if (!empty($errors)) {
+            //foreach ($errors as $error):
+            //echo $error;
+            //endforeach;
+            echo $errors[0];
+            }
 
-        if (mysqli_num_rows($result) == 0) {
-            echo "You can only edit your own order" . "<br />\n";
+            else {
+                mysqli_query($conn, $sql2);
+                header("location: orders.php");
+            }
         }
-
-        if (!mysqli_query($conn, $sql2)) { //if cannot be editted
-            die('Your order has NOT been changed.');
-        }
-
-        else { header("location: orders.php"); }
-    }
 
     if (isset($_POST['submitted'])) { //if submitted
         edit();
     }
 ?>
-
-
 
 <html>
     <body>

@@ -50,3 +50,25 @@ if (isset($_POST['submitted'])) { //if submitted
     </body>
     </html>
 <?php include 'inc/ordersToday.php'; ?>
+
+<?php
+
+    $errors = [];
+
+    if (empty($_POST['email_address'])) {
+        $errors[] = 'You must enter an email address';
+    }
+
+    // ...
+
+    if (empty($errors)) {
+        // everything's okay, let's insert into the database
+    }
+
+    ?>
+One or more errors occurred:
+<ul>
+    <?php foreach ($errors as $error): ?>
+        <li><?php echo $error; ?></li>
+    <?php endforeach; ?>
+</ul>
