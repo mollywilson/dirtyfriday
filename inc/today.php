@@ -1,7 +1,7 @@
 <div id="orders">
 <?php
 
-    echo "Today's Orders: " . "<br />\n";
+    echo "<br />\n" . "Today's Orders: " . "<br />\n";
     $result = $conn->query("SELECT * FROM foodOrders WHERE date=CURDATE()");
 
     if ($result->num_rows == 0) {

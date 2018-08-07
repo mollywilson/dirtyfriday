@@ -1,46 +1,50 @@
 <?php
-if (isset($_POST['submitted'])) { //IF ISSET
-
-    include 'inc/filter.php';
-
-    $password = filter($_POST['password']);
-    $confirm = filter($_POST['confirm']);
-
-    if ((!empty($password)) && !empty($confirm)) { //IF NOT EMPTY
-
-        if ($password == $confirm) { //passwords match
-
-            $sql = "SELECT * FROM logIn WHERE email='".$_SESSION["email"]."'"; //check order is theirs
-            $result = mysqli_query($conn, $sql); //user exists
-
-            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
-
-            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'"; //sql to edit order
-
-            include 'inc/connect.php';
-
-            if (mysqli_num_rows($result) == 1) { //if username exists
-
-                if (!mysqli_query($conn, $sql2)) { //IF password cannot be changed
-                    die('Your user has NOT been created');
-                } //end of if cannot be changed
-                else {
-                    //echo "Password changed";
-                    header("location: login.php");
-                } //END OF CANNOT BE STORED ELSE
-            }//end of if user exists
+            if (!mysqli_query($conn, $sql2)) { //if cannot delete entry
+                die('Your order has NOT been deleted.');
+            } //end of cannot delete
             else {
-                echo "Username incorrect";
-            } //end of username else
-        } //end of passwords match
+                header("location: index.php");
+            } //end of cannot delete else
+        } //end of entry belongs to user
         else {
-            echo "Your passwords do not match!";
-        }//end of passwords match else
-    } //END OF IF NOT EMPTY
+            echo "You can only delete your own order!";
+        } //end of entry belongs else
+    } //end of if empty
     else {
-        echo "Please fill in your details!";
-    } //END OF IF NOT EMPTY ELSE
-} // end of if isset
+        echo "Please fill in your details";
+    } //end of if empty else
+}// end of if isset
+
+include 'inc/today.php';
 ?>
 
+<?php
+
+    function delete() {
+
+        global $conn;
+        $errors = [];
+        $result = mysqli_query($conn, "SELECT * FROM foodOrders WHERE orderID='".$_POST['id']."' AND name='".$_SESSION["username"]."'");
+
+        if (empty($_POST['id'])) {
+            $errors[] = "Please enter your order number!";
+        }
+
+        if (mysqli_num_rows($result) == 0) {
+            $errors[] = "You can only delete your own order!";
+        }
+
+        if (!empty($errors)) {
+            echo $errors[0];
+        } else {
+            mysqli_query($conn, "DELETE FROM foodOrders WHERE orderID='".$_POST['id']."'");
+            //header("location: index.php");
+            echo "order has been deleted";
+        }
+    }
+
+    if (isset($_POST['submitted'])) {
+        delete();
+    }
+?>
 
