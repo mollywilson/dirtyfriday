@@ -43,20 +43,31 @@
         </form>
     </div>
 </body>
+</html>
 
 <?php
 
-$pattern = '/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/';
+    function search() {
 
-if (isset($_POST['search'])) {
-    $string = $_POST['search_date'];
-    if (empty($string)) {
-        echo "<br />\n" . "<br />\n";    } elseif (!preg_match($pattern, $string)) {
-        echo "Please enter a date in the correct format!" . "<br />\n" . "<br />\n" ;
-    } else {
-        include 'search.php';
+        $errors = [];
+
+        if (empty($_POST['search_date'])) {
+            $errors[] = "Please enter a search date";
+        }
+
+        if (!preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $_POST['search_date'])) {
+            $errors[] =  "Please enter a date in the correct format!";
+        }
+
+        if (!empty($errors)) {
+            echo $errors[0];
+        } else {
+            include 'search.php';
+        }
     }
-}
-    include 'inc/today.php';
-?>
-</html>
+
+    if (isset($_POST['search'])) {
+        search();
+    }
+
+include 'inc/today.php';
