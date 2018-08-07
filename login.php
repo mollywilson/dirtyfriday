@@ -1,4 +1,12 @@
 <?php
+    if(isset($_SESSION)) {
+        session_destroy();
+    }
+
+    if(!isset($_SESSION)) {
+        session_start();
+    }
+
     include 'inc/connect.php';
     $greeting = "Log In!";
 
@@ -8,6 +16,8 @@
 
     //    return $string;
     //}
+
+    include 'inc/header2.php';
 ?>
 
 <html>
@@ -17,18 +27,15 @@
     </head>
     <body>
 
-        <div id="header">
-        <a href="signup.php">Sign Up</a>
-        <a href="login.php">Log In</a>
-        <a href="" id="title">Dirty Fridays: <i><?php echo $greeting; ?></i></a>
+        <div class="form">
+            <form method="post" action="login.php">
+                <input type="hidden" name="submitted" value="true" />
+                <br>Username:<br> <input type="text" name="username">
+                <br>Password:<br> <input type="password" name="password">
+                <br> <input type="submit" value="Log Me In!">
+            </form>
         </div>
 
-        <form method="post" action="login.php">
-            <input type="hidden" name="submitted" value="true" />
-            <br>Username: <input type="text" name="username">
-            <br>Password: <input type="password" name="password">
-            <br> <input type="submit" value="Log Me In!">
-        </form>
     </body>
 </html>
 

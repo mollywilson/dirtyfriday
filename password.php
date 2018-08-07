@@ -1,6 +1,6 @@
 <?php
     $greeting = "Change my Password!";
-    include 'inc/header.php';
+    include 'inc/header2.php';
     include 'inc/connect.php';
 
 
@@ -42,7 +42,7 @@
                 }
 
                 $link = "http://molly.localhost/dirtyFriday/change.php?key=".$email_hash."";
-                
+
                 $_SESSION["email"] = $email;
 
                 mail("$email", "Dirty Fridays: Forgot my Password", "$message" . "$link");
