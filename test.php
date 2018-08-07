@@ -1,50 +1,54 @@
 <?php
-            if (!mysqli_query($conn, $sql2)) { //if cannot delete entry
-                die('Your order has NOT been deleted.');
-            } //end of cannot delete
-            else {
-                header("location: index.php");
-            } //end of cannot delete else
-        } //end of entry belongs to user
-        else {
-            echo "You can only delete your own order!";
-        } //end of entry belongs else
+include 'inc/connect.php';
+$greeting = "Place your order " . $_SESSION["username"] . "!";
+include 'inc/header.php';
+
+function order() {
+
+    global $conn;
+    $errors = [];
+    include 'inc/filter.php';
+
+    if (empty(filter($_POST['order']))) {
+        $errors[] = "Please enter an order!";
+    }
+
+    if (!empty($errors)) {
+        echo $errors[0];
+    } else {
+        mysqli_query($conn, "INSERT INTO foodOrders (name, food, date) VALUES ('".$_SESSION['username']."', '".filter($_POST['order'])."', NOW())");
+        header("location: orders.php");
+    }
+}
+
+if (isset($_POST['submitted'])) {
+    order();
+}
+?>
+<?php
+include 'inc/connect.php';
+$greeting = "Place your order " . $_SESSION["username"] . "!";
+include 'inc/header.php';
+
+if (isset($_POST['submitted'])) {
+
+    include 'inc/filter.php';
+
+    $order = filter($_POST['order']);
+
+    if (!empty($order)) {
+
+        $sql2 = "INSERT INTO foodOrders (name, food, date) VALUES 
+                    ('".$_SESSION['username']."', '$order', NOW())";
+
+        if (!mysqli_query($conn, $sql2)) {
+            die('Your order has NOT been placed.');
+        } else {
+            header("location: orders.php");
+        } //end of if order placed else
     } //end of if empty
     else {
-        echo "Please fill in your details";
+        echo "Please fill in your name and order";
     } //end of if empty else
-}// end of if isset
-
-include 'inc/today.php';
+} //end of isset
 ?>
-
-<?php
-
-    function delete() {
-
-        global $conn;
-        $errors = [];
-        $result = mysqli_query($conn, "SELECT * FROM foodOrders WHERE orderID='".$_POST['id']."' AND name='".$_SESSION["username"]."'");
-
-        if (empty($_POST['id'])) {
-            $errors[] = "Please enter your order number!";
-        }
-
-        if (mysqli_num_rows($result) == 0) {
-            $errors[] = "You can only delete your own order!";
-        }
-
-        if (!empty($errors)) {
-            echo $errors[0];
-        } else {
-            mysqli_query($conn, "DELETE FROM foodOrders WHERE orderID='".$_POST['id']."'");
-            //header("location: index.php");
-            echo "order has been deleted";
-        }
-    }
-
-    if (isset($_POST['submitted'])) {
-        delete();
-    }
-?>
-
