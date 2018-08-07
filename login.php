@@ -56,11 +56,8 @@ function login() {
 
     if (!empty($errors)) {
         echo $errors[0];
-    }
-
-    else {
-        echo "form ok";
-        //header("location: orders.php");
+    } else {
+        header("location: index.php");
     }
 }
 

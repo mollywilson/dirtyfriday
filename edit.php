@@ -24,9 +24,7 @@ include 'inc/header.php';
 
         if (!empty($errors)) {
             echo $errors[0];
-            }
-
-            else {
+            } else {
                 mysqli_query($conn, "UPDATE foodOrders SET food='".filter($_POST['order'])."' WHERE orderID='".filter($_POST['id'])."'");
                 header("location: orders.php");
             }
