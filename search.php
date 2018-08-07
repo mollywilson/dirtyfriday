@@ -4,25 +4,25 @@
             <h2><i>Previous orders!</i></h2>
         </div>
         <div id="search">
-            <?php
-            include 'inc/connect.php';
+        <?php
 
-            $search_date = $_POST['search_date'];
+            function search() {
 
-            $sql5 = "SELECT * FROM foodOrders WHERE date='".$search_date."'";
-            $result = $conn->query($sql5);
+                echo "Orders from " . $_POST['search_date'] . ":<br />\n";
 
-            echo "Orders from " . $search_date . ":<br />\n";
+                global $conn;
+                $result = $conn->query("SELECT * FROM foodOrders WHERE date='".$_POST['search_date']."'");
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
+                if ($result->num_rows == 0) {
+                    echo "Sorry, we couldn't find any orders from " . $_POST['search_date'] . "!" . "<br />\n";
+                } else {
+                    $row = $result->fetch_assoc();
                     echo $row["orderID"] . ". " . $row["name"] . " - " . $row["food"] .  "<br />\n";
                 }
-            } else {
-                echo "Sorry, we couldn't find any orders from " . $search_date . "!" . "<br />\n";
             }
-            echo "<br />\n";
-            ?>
+
+            search();
+        ?>
         </div>
     </body>
 </html>

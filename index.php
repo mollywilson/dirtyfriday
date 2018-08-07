@@ -47,7 +47,7 @@
 
 <?php
 
-    function search() {
+    function searchDate() {
 
         $errors = [];
 
@@ -67,7 +67,7 @@
     }
 
     if (isset($_POST['search'])) {
-        search();
+        searchDate();
     }
 
 include 'inc/today.php';
