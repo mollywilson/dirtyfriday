@@ -1,4 +1,6 @@
 
+
+
 <html>
     <head>
         <link rel="stylesheet" href="css/dirtyFriday.css">
@@ -9,7 +11,7 @@
         <div id="header">
             <a href="signup.php">Sign Up</a>
             <a href="login.php">Log Out</a>
-            <a href="password.php">Change Password</a>
+            <a href="password.php">Reset Password</a>
             <a href="orders.php"> Orders </a>
             <a href="index.php"> Home </a>
             <a href="" id="title">Dirty Fridays: <i><?php echo $greeting; ?></i></a>
@@ -20,12 +22,5 @@
 <?php
 
     include 'connect.php';
-
-    //function filter($string) {
-    //    $string = strip_tags($string);
-    //    $string = mysqli_real_escape_string($conn, $string);
-
-    //    return $string;
-    //}
 
 ?>

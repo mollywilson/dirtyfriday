@@ -26,26 +26,14 @@ h1 {
     padding: 8px 10px;
 }
 
-#search1 {
-    margin: 12px;
-}
-
-#orders {
-    margin: 12px;
-}
-
-#order_form {
-    margin: 12px;
-}
-
-#edit {
-    margin: 12px;
-}
-input[type=text] {
-    margin: 1px;
-}
-
 input[type=submit] {
     background-color: #ffb347;
 
+}
+
+div.form {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
 }
