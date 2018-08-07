@@ -30,9 +30,9 @@
         <div class="form">
             <form method="post" action="login.php">
                 <input type="hidden" name="submitted" value="true" />
-                <br>Username:<br> <input type="text" name="username">
-                <br>Password:<br> <input type="password" name="password">
-                <br> <input type="submit" value="Log Me In!">
+                <br><label>Username:</label><br> <input type="text" name="username">
+                <br><label>Password:</label><br> <input type="password" name="password">
+                <br><input type="submit" value="Log Me In!">
             </form>
         </div>
 

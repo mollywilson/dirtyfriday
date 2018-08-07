@@ -31,8 +31,8 @@ if (isset($_POST['submitted'])) {
     <div id="order_form">
         <form method="post" action="index.php">
             <input type="hidden" name="submitted" value="true" />
-            <br>Order: <input type="text" name="order">
-            <input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
+            <br><label>Order:</label><br><input type="text" name="order">
+            <br><input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
         </form>
     </div>
     <div id="search1">

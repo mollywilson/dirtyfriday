@@ -7,8 +7,8 @@ include 'inc/header.php';
     <body>
     <form method="post" action="deletes.php">
         <input type="hidden" name="submitted" value="true" />
-        <br>Order Number: <input type="text" name="id">
-        <br> <input type="submit" name="submit" value="Delete my order!">
+        <br><label>Order Number:</label><br><input type="text" name="id">
+        <br><input type="submit" name="submit" value="Delete my order!">
     </form>
     </body>
     </html>

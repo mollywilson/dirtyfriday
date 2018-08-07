@@ -1,5 +1,5 @@
 <?php
-    $greeting = "Change your Password";
+    $greeting = "Change my Password";
     include 'inc/header2.php';
     include 'inc/connect.php';
 ?>
@@ -8,9 +8,9 @@
     <body>
         <form method="post" action="change.php">
             <input type="hidden" name="submitted" value="true" />
-            <br>Password: <input type="password" name="password">
-            <br>Confirm Password: <input type="password" name="cpassword">
-            <br> <input type="submit" value="Change my Password">
+            <br><label>Password:</label><br><input type="password" name="password">
+            <br><label>Confirm Password:</label><br><input type="password" name="confirm">
+            <br><input type="submit" value="Change my Password">
         </form>
     </body>
 </html>
@@ -21,11 +21,11 @@ if (isset($_POST['submitted'])) { //IF ISSET
     include 'inc/filter.php';
 
     $password = filter($_POST['password']);
-    $cpassword = filter($_POST['cpassword']);
+    $confirm = filter($_POST['confirm']);
 
-    if ((!empty($password)) && !empty($cpassword)) { //IF NOT EMPTY
+    if ((!empty($password)) && !empty($confirm)) { //IF NOT EMPTY
 
-        if ($password == $cpassword) { //passwords match
+        if ($password == $confirm) { //passwords match
 
             $sql = "SELECT * FROM logIn WHERE email='".$_SESSION["email"]."'"; //check order is theirs
             $result = mysqli_query($conn, $sql); //user exists
