@@ -10,13 +10,6 @@
     include 'inc/connect.php';
     $greeting = "Log In!";
 
-    //function filter($string) {
-    //    $string = strip_tags($string);
-    //    $string = mysqli_real_escape_string($conn, $string);
-
-    //    return $string;
-    //}
-
     include 'inc/header2.php';
 ?>
 
@@ -41,33 +34,37 @@
 
 <?php
 
-    if (isset($_POST['submitted'])) { //if form is submitted
+function login() {
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    include 'inc/filter.php';
+    global $conn;
+    $errors = [];
+    $result = mysqli_query($conn, "SELECT password FROM logIn WHERE name='".filter($_POST['username'])."'");
+    $row = $result->fetch_array();
 
-        $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
-        $result = mysqli_query($conn, $dbpassword);
+    if ((empty(filter($_POST['username']))) && (empty(filter($_POST['password'])))) {
+        $errors[] = "You must enter your username and password";
+    }
 
-        if ((!empty($username)) && (!empty($password))) { //if form not empty
+    if (mysqli_num_rows($result) == 0) {
+        $errors[] = "Your username or password is incorrect";
+    }
 
-            if (mysqli_num_rows($result) > 0) { //if username exists
-                $row = $result->fetch_array();
-                    if (password_verify($password, $row['password'])) {
-                        //echo "SUCCESS";
-                        $_SESSION["username"] = $username;
-                        header("Location: index.php");
-                    }// end of password verify
-            else {
-                echo "Your username or password is incorrect";
-            } // end of password verify else
-        }// end of if username exists
-            else {
-                echo "Your username or password is incorrect";
-            } //end of username exists else
-        }//end of if not empty
-        else {
-            echo "Please fill in your details";
-        }// end of if not empty else
-    }// end of isset
+    if (!password_verify(filter($_POST['password']), $row['password'])) {
+        $errors[] = "Your username or password is incorrect";
+    }
+
+    if (!empty($errors)) {
+        echo $errors[0];
+    }
+
+    else {
+        echo "form ok";
+        //header("location: orders.php");
+    }
+}
+
+if (isset($_POST['submitted'])) {
+    login();
+}
 ?>
