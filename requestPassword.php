@@ -4,7 +4,7 @@
     include 'inc/connect.php';
 
 
-    $url = "http://molly.localhost/dirtyFriday/change.php";
+    $url = "http://molly.localhost/dirtyFriday/resetPassword.php";
     $admin_name = "Dirty Fridays";
     $admin_email = "molly@Mollys-MBP.magmadigital.co.uk";
     $message = "Please click the link to change your password!" . "\n";
@@ -12,7 +12,7 @@
 ?>
 
 <html>
-    <form method="post" action="password.php">
+    <form method="post" action="requestPassword.php">
         <input type="hidden" name="submitted" value="true" />
         <br><label>Name:</label> <input type="text" name="username">
         <br><label>Email:</label> <input type="text" name="email">
@@ -41,7 +41,7 @@
                     $email_hash = password_hash($email, PASSWORD_BCRYPT);
                 }
 
-                $link = "http://molly.localhost/dirtyFriday/change.php?key=".$email_hash."";
+                $link = "http://molly.localhost/dirtyFriday/resetPassword.php?key=".$email_hash."";
 
                 $_SESSION["email"] = $email;
 

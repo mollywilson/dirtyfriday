@@ -47,4 +47,4 @@ include 'inc/header.php';
     </div>
     </body>
 </html>
-<?php include 'inc/ordersToday.php'; ?>
+<?php include 'inc/today.php'; ?>

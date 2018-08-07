@@ -1,92 +1,46 @@
-
 <?php
-    /*
-    $errors = [];
+if (isset($_POST['submitted'])) { //IF ISSET
 
-    if (empty($_POST['email_address'])) {
-        $errors[] = 'You must enter an email address';
-    }
+    include 'inc/filter.php';
 
-    // ...
+    $password = filter($_POST['password']);
+    $confirm = filter($_POST['confirm']);
 
-    if (empty($errors)) {
-        // everything's okay, let's insert into the database
-    }
+    if ((!empty($password)) && !empty($confirm)) { //IF NOT EMPTY
 
-    ?>
-One or more errors occurred:
-<ul>
-    <?php foreach ($errors as $error): ?>
-        <li><?php echo $error; ?></li>
-    <?php endforeach; ?>
-</ul>
-    */
+        if ($password == $confirm) { //passwords match
 
-//if (isset($_POST['submitted'])) { //if form is submitted
+            $sql = "SELECT * FROM logIn WHERE email='".$_SESSION["email"]."'"; //check order is theirs
+            $result = mysqli_query($conn, $sql); //user exists
 
+            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
 
-//        $username = filter($_POST['username']);
-//        $password = filter($_POST['password']);
-//
-//        $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
-//        $result = mysqli_query($conn, $dbpassword);
+            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'"; //sql to edit order
 
-//        if ((!empty($username)) && (!empty($password))) { //if form not empty
+            include 'inc/connect.php';
 
-            if (mysqli_num_rows($result) > 0) { //if username exists
-                $row = $result->fetch_array();
-                    if (password_verify($password, $row['password'])) {
-                        //echo "SUCCESS";
-                        $_SESSION["username"] = $username;
-                        header("Location: index.php");
-                    }// end of password verify
+            if (mysqli_num_rows($result) == 1) { //if username exists
+
+                if (!mysqli_query($conn, $sql2)) { //IF password cannot be changed
+                    die('Your user has NOT been created');
+                } //end of if cannot be changed
+                else {
+                    //echo "Password changed";
+                    header("location: login.php");
+                } //END OF CANNOT BE STORED ELSE
+            }//end of if user exists
             else {
-                echo "Your username or password is incorrect";
-            } // end of password verify else
-        }// end of if username exists
-            else {
-                echo "Your username or password is incorrect";
-            } //end of username exists else
-        }//end of if not empty
+                echo "Username incorrect";
+            } //end of username else
+        } //end of passwords match
         else {
-            echo "Please fill in your details";
-        }// end of if not empty else
-    }// end of isset
+            echo "Your passwords do not match!";
+        }//end of passwords match else
+    } //END OF IF NOT EMPTY
+    else {
+        echo "Please fill in your details!";
+    } //END OF IF NOT EMPTY ELSE
+} // end of if isset
 ?>
 
-<?php
 
-    function login() {
-
-        $errors = [];
-        $username = filter($_POST['username']);
-        $password = filter($_POST['password']);
-        $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
-        $result = mysqli_query($conn, $dbpassword);
-
-        if ((empty($username)) && (empty($password))) {
-            $errors[] = "You must enter your username and password";
-        }
-
-        if (mysqli_num_rows($result) == 0) {
-            $row = $result->fetch_array();
-            $errors[] = "Your username or password is incorrect";
-        }
-
-        if (!password_verify($password, $row['password'])) {
-            $errors[] = "Your username or password is incorrect";
-        }
-
-        if (!empty($errors)) {
-            echo $errors[0];
-            }
-
-        else {
-            echo "form ok";
-            //header("location: orders.php");
-        }
-    }
-
-    if (isset($_POST['submitted'])) {
-        login();
-    }

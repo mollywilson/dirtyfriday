@@ -3,7 +3,7 @@
     $greeting = "Your order has been placed!";
     include 'inc/connect.php';
     include 'inc/header.php';
-    include 'inc/ordersToday.php';
+    include 'inc/today.php';
 ?>
     <div id="btn_edit">
         <form action="edit.php">
@@ -12,7 +12,7 @@
     </div>
 
     <div id="btn_delete">
-        <form action="deletes.php">
+        <form action="delete.php">
             <input type="submit" value="Delete my order!" />
         </form>
     </div>

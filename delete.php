@@ -5,7 +5,7 @@ include 'inc/header.php';
 ?>
     <html>
     <body>
-    <form method="post" action="deletes.php">
+    <form method="post" action="delete.php">
         <input type="hidden" name="submitted" value="true" />
         <br><label>Order Number:</label><br><input type="text" name="id">
         <br><input type="submit" name="submit" value="Delete my order!">
@@ -43,5 +43,5 @@ if (isset($_POST['submitted'])) { //if form is submitted
     } //end of if empty else
 }// end of if isset
 
-include 'inc/ordersToday.php';
+include 'inc/today.php';
 ?>

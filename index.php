@@ -57,6 +57,6 @@ if (isset($_POST['search'])) {
         include 'search.php';
     }
 }
-    include 'inc/ordersToday.php';
+    include 'inc/today.php';
 ?>
 </html>

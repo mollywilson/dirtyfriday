@@ -1,5 +1,4 @@
 <div id="orders">
-
 <?php
 
     echo "Today's Orders: " . "<br />\n";
@@ -13,5 +12,4 @@
     }
 
 ?>
-
 </div>

@@ -6,7 +6,7 @@
 
 <html>
     <body>
-        <form method="post" action="change.php">
+        <form method="post" action="resetPassword.php">
             <input type="hidden" name="submitted" value="true" />
             <br><label>Password:</label><br><input type="password" name="password">
             <br><label>Confirm Password:</label><br><input type="password" name="confirm">
@@ -16,46 +16,32 @@
 </html>
 
 <?php
-if (isset($_POST['submitted'])) { //IF ISSET
 
-    include 'inc/filter.php';
+    function resetPassword() {
 
-    $password = filter($_POST['password']);
-    $confirm = filter($_POST['confirm']);
+        global $conn;
+        include 'inc/filter.php';
 
-    if ((!empty($password)) && !empty($confirm)) { //IF NOT EMPTY
+        $errors = [];
 
-        if ($password == $confirm) { //passwords match
+        if ((empty(filter($_POST['password']))) && empty(filter($_POST['confirm']))) {
+            $errors[] = "Please type a password!";
+        }
 
-            $sql = "SELECT * FROM logIn WHERE email='".$_SESSION["email"]."'"; //check order is theirs
-            $result = mysqli_query($conn, $sql); //user exists
+        if (filter($_POST['password']) != filter($_POST['confirm'])) {
+            $errors[] = "Your passwords must match!";
+        }
 
-            $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+        if (!empty($errors)) {
+            echo $errors[0];
+        } else {
+            $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
+            mysqli_query($conn, "UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'");
+            header("location: login.php");
+        }
+    }
 
-            $sql2 = "UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'"; //sql to edit order
-
-            include 'inc/connect.php';
-
-            if (mysqli_num_rows($result) == 1) { //if username exists
-
-                if (!mysqli_query($conn, $sql2)) { //IF password cannot be changed
-                    die('Your user has NOT been created');
-                } //end of if cannot be changed
-                else {
-                    //echo "Password changed";
-                    header("location: login.php");
-                } //END OF CANNOT BE STORED ELSE
-            }//end of if user exists
-            else {
-                echo "Username incorrect";
-            } //end of username else
-        } //end of passwords match
-        else {
-            echo "Your passwords do not match!";
-        }//end of passwords match else
-    } //END OF IF NOT EMPTY
-    else {
-        echo "Please fill in your details!";
-    } //END OF IF NOT EMPTY ELSE
-} // end of if isset
+    if (isset($_POST['submitted'])) {
+        resetPassword();
+    }
 ?>
