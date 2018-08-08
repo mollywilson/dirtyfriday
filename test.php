@@ -1,70 +1,114 @@
 <?php
 
-if (isset($_POST['submitted'])) { //if form submitted
-
     include 'inc/filter.php';
-
-    $name = filter($_POST['username']);
+    //filter all the user inputs
+    $username = filter($_POST['username']);
     $email = filter($_POST['email']);
+    $password = filter($_POST['password']);
+    $cpassword = filter($_POST['cpassword']);
 
-    $sql = "SELECT * FROM logIn WHERE name='".$name."' AND email='".$email."'";
-    $result = mysqli_query($conn, $sql);
+    if ((!empty($username)) && (!empty($email)) && (!empty($password)) && (!empty($cpassword))) { //if form is not empty DO
+        //echo "The form is submitted and not empty";
 
-    if ((!empty($name)) && (!empty($email))) { //if not empty
+        $sql = "SELECT * FROM logIn WHERE name='".$username."'";
+        $result = mysqli_query($conn, $sql);
 
-        if (mysqli_num_rows($result) == 1) { //if name and email match
+        if (($result->num_rows) == 0) { //if username not taken DO
+            //echo "The username is available!";
 
-            while ($row = mysqli_fetch_array($result)) {
-                $email_hash = password_hash($email, PASSWORD_BCRYPT);
-            }
+            $sql2 = "SELECT * FROM logIn WHERE email='".$email."'";
+            $result1 = mysqli_query($conn, $sql2);
 
-            $link = "http://molly.localhost/dirtyFriday/resetPassword.php?key=".$email_hash."";
+            if (($result1->num_rows == 0)) { //if email not taken DO
+                //echo "This email is available";
 
-            $_SESSION["email"] = $email;
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) { //if email is valid
+                    //echo "This email is valid";
 
-            mail("$email", "Dirty Fridays: Forgot my Password", "$message" . "$link");
-            echo "Your email has been sent!";
-        }//end of if name and email match
-        else {
-            echo "Your name or email address is incorrect!";
-        }//end of name and email address else
-    } //end of if not empty
-    else {
-        echo "Please fill in your details";
-    }//end of if not empty else
-}//end of form submitted
+                    if ($password == $cpassword) { //if passwords match
+                        //echo "The passwords match!" . $password . $cpassword;
 
+                        $hash = password_hash($password, PASSWORD_BCRYPT); //TO HASH THE PASSWORD
+                        //echo "Password: " . $hash;
+
+                        $sql3 = "INSERT INTO logIn (name, email, password) VALUES ('$username', '$email', '$hash')";
+
+                        if (!mysqli_query($conn, $sql3)) { //if user not created
+                            die('Your user has NOT been created');
+                        } //close user not created
+                        else { //user is created
+                            $_SESSION["username"] = $username;
+                            header("location: index.php");
+                            //echo "User has been created";
+                        } //close user is created
+                    } //close passwords match
+                    else { //passwords don't match
+                        echo "These passwords do not match";
+                    } //close passwords dont match
+                } //close if email valid
+                else { //email not valid
+                    echo "Sorry, this email is not valid";
+                } //close email not valid
+            }//close email not taken
+            else { //if email taken
+                echo "Sorry, this email address has already been used!";
+            } //close email taken
+        }//close if username not taken
+        else { //the username is taken
+            echo "Sorry, this username is taken!";
+        } //close username is taken
+    } //close if not empty
+    else { //if empty (else)
+        echo "Please fill in your details!";
+    } //if empty close
+} //close if submitted
+else { //if not submitted (else)
+    //echo "The form has not been submitted"; //if form submitted else do
+} //close if submitted else
 ?>
 
 <?php
 
-    function requestPassword() {
+    function signup()
+    {
 
         global $conn;
         include 'inc/filter.php';
         $errors = [];
-        $email = filter($_POST['email']);
-        $result = mysqli_query($conn, "SELECT * FROM logIn WHERE name='".filter($_POST['username'])."' AND email='".filter($_POST['email'])."'");
-        $email_hash = password_hash(filter($_POST['email']), PASSWORD_BCRYPT);
-        $link = "http://molly.localhost/dirtyFriday/resetPassword.php?key=".$email_hash."";
-        $_SESSION["email"] = filter($_POST['email']);
+        $result = mysqli_query($conn, "SELECT * FROM logIn WHERE name='" . filter($_POST['username']) . "'");
+        $result1 = mysqli_query($conn, "SELECT * FROM logIn WHERE email='".filter($_POST['username'])."'");
+        $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
 
-        if ((empty(filter($_POST['username']))) || (empty(filter($_POST['email'])))) {
-            $errors[] = "Please enter your username and email address";
+        if ((empty(filter($_POST['username']))) || (empty(filter($_POST['email']))) || (empty(filter($_POST['password']))) || (empty(filter($_POST['cpassword'])))) {
+            $errors[] = "Please fill in your details!";
         }
 
-        if (mysqli_num_rows($result) == 0) {
-            $errors[] = "Your username or password is incorrect";
+        if (($result->num_rows) == 1) {
+            $errors[] = "This username is taken!";
         }
 
-        if (!empty($errors)) {
+        if (($result1->num_rows == 1)) {
+            $errors[] = "This email has already been used";
+        }
+
+        if (!filter_var(filter($_POST['email']), FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Please enter a valid email";
+        }
+
+        if (filter($_POST['password']) == filter($_POST['cpassword'])) {
+            $errors[] = "Your passwords do not match";
+        }
+
+        if (empty($errors)) {
             echo $errors[0];
         } else {
-            mail("$email", 'Dirty Fridays: Forgot my Password', "$message" . "$link");
-            echo "Your email has been sent!";
+            mysqli_query($conn, "INSERT INTO logIn (name, email, password) VALUES ('".filter($_POST['username'])."', '".filter($_POST['email'])."', '$hash')");
+            $_SESSION["username"] = filter($_POST['username']);
+            header("location: index.php");
         }
     }
 
+
     if (isset($_POST['submitted'])) {
-        requestPassword();
+        signup();
     }
