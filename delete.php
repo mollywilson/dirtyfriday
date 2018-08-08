@@ -19,7 +19,7 @@ include 'inc/header.php';
 
         global $conn;
         $errors = [];
-        $result = mysqli_query($conn, "SELECT * FROM foodOrders WHERE orderID='".$_POST['id']."' AND name='".$_SESSION["username"]."'");
+        $result = $conn->query("SELECT * FROM foodOrders WHERE orderID='".$_POST['id']."' AND name='".$_SESSION["username"]."'");
 
         if (empty($_POST['id'])) {
             $errors[] = "Please enter your order number!";
@@ -32,7 +32,7 @@ include 'inc/header.php';
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            mysqli_query($conn, "DELETE FROM foodOrders WHERE orderID='".$_POST['id']."'");
+            $conn->query("DELETE FROM foodOrders WHERE orderID='".$_POST['id']."'");
             header("location: orders.php");
         }
     }

@@ -16,7 +16,7 @@ include 'inc/header.php';
             $errors[] = 'You must enter an ID and an order';
         }
 
-        $result = mysqli_query($conn, "SELECT * FROM foodOrders WHERE name='".$_SESSION["username"]."' AND orderID='".filter($_POST['id'])."'"); //user exists
+        $result = $conn->query("SELECT * FROM foodOrders WHERE name='".$_SESSION["username"]."' AND orderID='".filter($_POST['id'])."'"); //user exists
 
         if (mysqli_num_rows($result) == 0) {
             $errors[] = 'You can only edit your own order';
@@ -25,7 +25,7 @@ include 'inc/header.php';
         if (!empty($errors)) {
             echo $errors[0];
             } else {
-                mysqli_query($conn, "UPDATE foodOrders SET food='".filter($_POST['order'])."' WHERE orderID='".filter($_POST['id'])."'");
+                $conn->query("UPDATE foodOrders SET food='".filter($_POST['order'])."' WHERE orderID='".filter($_POST['id'])."'");
                 header("location: orders.php");
             }
         }

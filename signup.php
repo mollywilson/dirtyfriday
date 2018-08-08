@@ -28,8 +28,8 @@ function signup() {
     global $conn;
     include 'inc/filter.php';
     $errors = [];
-    $result = mysqli_query($conn, "SELECT * FROM logIn WHERE name='" . filter($_POST['username']) . "'");
-    $result1 = mysqli_query($conn, "SELECT * FROM logIn WHERE email='".filter($_POST['username'])."'");
+    $result = $conn->query("SELECT * FROM logIn WHERE name='" . filter($_POST['username']) . "'");
+    $result1 = $conn->query("SELECT * FROM logIn WHERE email='".filter($_POST['username'])."'");
     $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
 
     if ((empty(filter($_POST['username']))) || (empty(filter($_POST['email']))) || (empty(filter($_POST['password']))) || (empty(filter($_POST['cpassword'])))) {
@@ -55,7 +55,7 @@ function signup() {
     if (empty($errors)) {
         echo $errors[0];
     } else {
-        mysqli_query($conn, "INSERT INTO logIn (name, email, password) VALUES ('".filter($_POST['username'])."', '".filter($_POST['email'])."', '$hash')");
+        $conn->query("INSERT INTO logIn (name, email, password) VALUES ('".filter($_POST['username'])."', '".filter($_POST['email'])."', '$hash')");
         $_SESSION["username"] = filter($_POST['username']);
         header("location: login.php");
     }

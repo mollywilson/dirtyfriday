@@ -39,10 +39,10 @@ function login() {
     include 'inc/filter.php';
     global $conn;
     $errors = [];
-    $result = mysqli_query($conn, "SELECT password FROM logIn WHERE name='".filter($_POST['username'])."'");
+    $result = $conn->query("SELECT password FROM logIn WHERE name='".filter($_POST['username'])."'");
     $row = $result->fetch_array();
 
-    if ((empty(filter($_POST['username']))) && (empty(filter($_POST['password'])))) {
+    if ((empty(filter($_POST['username']))) || (empty(filter($_POST['password'])))) {
         $errors[] = "You must enter your username and password";
     }
 

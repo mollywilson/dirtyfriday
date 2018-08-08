@@ -21,10 +21,9 @@
 
         global $conn;
         include 'inc/filter.php';
-
         $errors = [];
 
-        if ((empty(filter($_POST['password']))) && empty(filter($_POST['confirm']))) {
+        if ((empty(filter($_POST['password']))) || empty(filter($_POST['confirm']))) {
             $errors[] = "Please type a password!";
         }
 
@@ -36,7 +35,7 @@
             echo $errors[0];
         } else {
             $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
-            mysqli_query($conn, "UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'");
+            $conn->query("UPDATE logIn SET password='".$hash."' WHERE email='".$_SESSION["email"]."'");
             header("location: login.php");
         }
     }

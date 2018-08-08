@@ -16,7 +16,7 @@
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            mysqli_query($conn, "INSERT INTO foodOrders (name, food, date) VALUES ('".$_SESSION['username']."', '".filter($_POST['order'])."', NOW())");
+            $conn->query( "INSERT INTO foodOrders (name, food, date) VALUES ('".$_SESSION['username']."', '".filter($_POST['order'])."', NOW())");
                 header("location: orders.php");
             }
     }

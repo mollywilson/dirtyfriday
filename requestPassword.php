@@ -3,11 +3,6 @@
     include 'inc/header2.php';
     include 'inc/connect.php';
 
-
-    $url = "http://molly.localhost/dirtyFriday/resetPassword.php";
-    $admin_name = "Dirty Fridays";
-    $admin_email = "molly@Mollys-MBP.magmadigital.co.uk";
-
 ?>
 
 <html>
@@ -27,7 +22,7 @@ function requestPassword() {
     include 'inc/filter.php';
     $errors = [];
     $email = filter($_POST['email']);
-    $result = mysqli_query($conn, "SELECT * FROM logIn WHERE name='".filter($_POST['username'])."' AND email='".filter($_POST['email'])."'");
+    $result = $conn->query("SELECT * FROM logIn WHERE name='".filter($_POST['username'])."' AND email='".filter($_POST['email'])."'");
     $email_hash = password_hash(filter($_POST['email']), PASSWORD_BCRYPT);
     $link = "http://molly.localhost/dirtyFriday/resetPassword.php?key=".$email_hash."";
     $_SESSION["email"] = filter($_POST['email']);
