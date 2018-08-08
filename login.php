@@ -33,7 +33,6 @@
 </html>
 
 <?php
-
 function login() {
 
     include 'inc/filter.php';
@@ -57,6 +56,7 @@ function login() {
     if (!empty($errors)) {
         echo $errors[0];
     } else {
+        $_SESSION['username'] = filter($_POST['username']);
         header("location: index.php");
     }
 }
