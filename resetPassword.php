@@ -43,6 +43,10 @@
             $errors[] = "Please type a password!";
         }
 
+        if (strlen(filter($_POST['password'])) < 8) {
+            $errors[] = "Your password must be 8 or more characters";
+        }
+
         if (filter($_POST['password']) != filter($_POST['confirm'])) {
             $errors[] = "Your passwords must match!";
         }

@@ -48,6 +48,10 @@ function signup() {
         $errors[] = "Please enter a valid email";
     }
 
+    if (strlen(filter($_POST['password'])) < 8) {
+        $errors[] = "Your password must be 8 or more characters";
+    }
+
     if (filter($_POST['password']) != filter($_POST['cpassword'])) {
         $errors[] = "Your passwords do not match";
     }
