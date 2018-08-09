@@ -25,7 +25,6 @@ function requestPassword() {
     $errors = [];
     $email = filter($_POST['email']);
     $result = $conn->query(sprintf("SELECT * FROM logIn WHERE email = '%s'", filter($_POST['email'])));
-    $_SESSION["email"] = filter($_POST['email']);
 
     if (empty(filter($_POST['email']))) {
         $errors[] = "Please enter your email address";
