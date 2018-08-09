@@ -7,8 +7,9 @@
     if ($result->num_rows == 0) {
         echo "Be the first to order!";
     } else {
-        $row = $result->fetch_assoc();
-        echo $row["orderID"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n";
+        while ($row = $result->fetch_assoc()) {
+            echo $row["orderID"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n";
+        }
     }
 
 ?>

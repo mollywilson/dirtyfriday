@@ -12,19 +12,12 @@
 
     include 'inc/header2.php';
 ?>
-
-<html>
-    <head>
-        <link rel="stylesheet" href="css/dirtyFriday.css">
-        <title>Dirty Friday</title>
-    </head>
     <body>
-
         <div class="form">
             <form method="post" action="login.php">
                 <input type="hidden" name="submitted" value="true" />
-                <br><label>Username:</label><br> <input type="text" name="username">
-                <br><label>Password:</label><br> <input type="password" name="password">
+                <br><label>Username:</label><br><input type="text" name="username">
+                <br><label>Password:</label><br><input type="password" name="password">
                 <br><input type="submit" value="Log Me In!">
             </form>
         </div>
@@ -38,7 +31,7 @@ function login() {
     include 'inc/filter.php';
     global $conn;
     $errors = [];
-    $result = $conn->query("SELECT password FROM logIn WHERE name='".filter($_POST['username'])."'");
+    $result = $conn->query(sprintf("SELECT password FROM logIn WHERE name = '%s'", filter($_POST['username'])));
     $row = $result->fetch_array();
 
     if ((empty(filter($_POST['username']))) || (empty(filter($_POST['password'])))) {

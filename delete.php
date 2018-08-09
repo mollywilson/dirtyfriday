@@ -5,11 +5,14 @@ include 'inc/header.php';
 ?>
     <html>
     <body>
-    <form method="post" action="delete.php">
-        <input type="hidden" name="submitted" value="true" />
-        <br><label>Order Number:</label><br><input type="text" name="id">
-        <br><input type="submit" name="submit" value="Delete my order!">
-    </form>
+    <div class="form">
+        <form method="post" action="delete.php">
+            <input type="hidden" name="submitted" value="true" />
+            <br><label>Order Number:</label><br><input type="text" name="id">
+            <br><input type="submit" name="submit" value="Delete my order!">
+        </form>
+    </div>
+
     </body>
     </html>
 
@@ -19,7 +22,7 @@ include 'inc/header.php';
 
         global $conn;
         $errors = [];
-        $result = $conn->query("SELECT * FROM foodOrders WHERE orderID='".$_POST['id']."' AND name='".$_SESSION["username"]."'");
+        $result = $conn->query(sprintf("SELECT * FROM foodOrders WHERE orderID = '%s' AND name = '%s'", $_POST['id'], $_SESSION["username"]));
 
         if (empty($_POST['id'])) {
             $errors[] = "Please enter your order number!";
@@ -32,7 +35,7 @@ include 'inc/header.php';
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            $conn->query("DELETE FROM foodOrders WHERE orderID='".$_POST['id']."'");
+            $conn->query(sprintf("DELETE FROM foodOrders WHERE orderID = '%s'", $_POST['id']));
             header("location: orders.php");
         }
     }

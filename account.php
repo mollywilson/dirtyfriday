@@ -2,24 +2,23 @@
     $greeting = "Account Details";
     include 'inc/header.php';
     include 'inc/connect.php';
-    $result = $conn->query("SELECT * FROM logIn WHERE name='".$_SESSION['username']."'");
+    $result = $conn->query(sprintf("SELECT * FROM logIn WHERE name = '%s'", $_SESSION['username']));
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
     }
     ?>
 
-    <form action="username.php">
         <p>Username: <?php echo $row['name'] ?>
-        <input type="submit" name="changeUsername" value="Change my username!"> </p>
-    </form>
 
+    <div class="form>"
     <form action="email.php">
-        <p>Email Address: <?php echo $row['email'] ?>
-        <input type="submit" name="changeEmail" value="Change my email address!"> </p>
+        <br><label>Email Address:</label> <?php echo $row['email'] ?>
+        <br><input type="submit" class="btn1" name="changeEmail" value="Change my email address!">
     </form>
 
     <form action="requestPassword.php">
-        <p>Password:
-        <input type="submit" name="changePassword" value="Change my password!"> </p>
+        <br><label>Password: </label>
+        <br><input type="submit" class="btn1" name="changePassword" value="Change my password!">
     </form>
+    </div>

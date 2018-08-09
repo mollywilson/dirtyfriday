@@ -2,6 +2,28 @@
     include 'inc/connect.php';
     $greeting = "Place your order " . $_SESSION["username"] . "!";
     include 'inc/header.php';
+?>
+
+<html>
+    <body>
+    <div class="form">
+        <form method="post" action="index.php">
+            <input type="hidden" name="submitted" value="true" />
+            <br><label>Order:</label><br><input type="text" name="order">
+            <br><input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
+        </form>
+    </div>
+    <div class="form">
+        <form method="post" action="index.php">
+            <input type="hidden" name="search" value="true" />
+            <br><label>Search:</label><br><input type="text" name="search_date" placeholder="yyyy-mm-dd">
+            <br><input type="submit" name="searched" value="Search">
+        </form>
+    </div>
+</body>
+</html>
+
+<?php
 
     function order() {
 
@@ -13,11 +35,17 @@
             $errors[] = "Please enter an order!";
         }
 
+        $result = $conn->query(sprintf("SELECT * FROM foodOrders WHERE name = '%s' AND date = CURDATE()", $_SESSION['username']));
+
+        if (mysqli_num_rows($result) == 1) {
+            $errors[] = "Sorry, you have already ordered today, maybe you want to edit your order?";
+        }
+
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            $conn->query( "INSERT INTO foodOrders (name, food, date) VALUES ('".$_SESSION['username']."', '".filter($_POST['order'])."', NOW())");
-                header("location: orders.php");
+            $conn->query( sprintf("INSERT INTO foodOrders (name, food, date) VALUES ('%s', '%s', NOW())", $_SESSION['username'], filter($_POST['order'])));
+            header("location: orders.php");
             }
     }
 
@@ -25,25 +53,6 @@
         order();
     }
 ?>
-
-<html>
-    <body>
-    <div id="order_form">
-        <form method="post" action="index.php">
-            <input type="hidden" name="submitted" value="true" />
-            <br><label>Order:</label><br><input type="text" name="order">
-            <br><input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
-        </form>
-    </div>
-    <div id="search1">
-        <form method="post" action="index.php">
-            <input type="hidden" name="search" value="true" />
-            Search: <input type="text" name="search_date" placeholder="yyyy-mm-dd">
-            <input type="submit" name="searched" value="Search">
-        </form>
-    </div>
-</body>
-</html>
 
 <?php
 

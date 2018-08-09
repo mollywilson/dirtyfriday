@@ -11,13 +11,14 @@
                 echo "Orders from " . $_POST['search_date'] . ":<br />\n";
 
                 global $conn;
-                $result = $conn->query("SELECT * FROM foodOrders WHERE date='".$_POST['search_date']."'");
+                $result = $conn->query(sprintf("SELECT * FROM foodOrders WHERE date = '%s'", $_POST['search_date']));
 
                 if ($result->num_rows == 0) {
                     echo "Sorry, we couldn't find any orders from " . $_POST['search_date'] . "!" . "<br />\n";
                 } else {
-                    $row = $result->fetch_assoc();
-                    echo $row["orderID"] . ". " . $row["name"] . " - " . $row["food"] .  "<br />\n";
+                    while ($row = $result->fetch_assoc()) {
+                        echo $row["orderID"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n";
+                    }
                 }
             }
 

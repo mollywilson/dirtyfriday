@@ -28,21 +28,15 @@
         include 'inc/filter.php';
         $errors = [];
 
-        if (true === ctype_xdigit($selector) || true === ctype_xdigit($validator)) {
-            echo $selector;
-            echo $validator;
-            echo "its all ok";
-        } else {
-            echo "selector: " . $selector;
-            echo "validator: " . $validator;
-            echo "its not ok";
-            $errors[] = "Unfortunately, the request cannot be processed line 34";
+        if (true !== ctype_xdigit($selector) || true !== ctype_xdigit($validator)) {
+            $errors[] = "Unfortunately, the request cannot be processed";
         }
 
-        $results = $conn->query("SELECT * FROM reset WHERE selector='".$selector."'");
+        $results = $conn->query(sprintf("SELECT * FROM reset WHERE selector = '%s'", $selector));
+        $record = $results->fetch_assoc();
 
         if ((mysqli_num_rows($results)) == 0) {
-            $errors[] = "Unfortunately, the request cannot be processed line 40";
+            $errors[] = "Unfortunately, the request cannot be processed";
         }
 
         if ((empty(filter($_POST['password']))) && empty(filter($_POST['confirm']))) {
@@ -57,8 +51,8 @@
             echo $errors[0];
         } else {
             $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
-            $conn->query("UPDATE logIn SET password='".$hash."' FROM reset WHERE logIn.email=reset.email AND reset.selector='".$selector."'");
-            $conn->query("DELETE FROM reset WHERE selector='".$selector."'");
+            $conn->query(sprintf("UPDATE logIn SET password = '%s' WHERE logIn.email = '%s'", $hash, $record['email']));
+            $conn->query(sprintf("DELETE FROM reset WHERE selector = '%s'", $selector));
             header("location: login.php");
         }
     }
