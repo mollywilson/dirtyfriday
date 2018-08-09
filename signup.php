@@ -28,8 +28,8 @@ function signup() {
     global $conn;
     include 'inc/filter.php';
     $errors = [];
-    $result = $conn->query(sprintf("SELECT * FROM logIn WHERE name = '%s' ", filter($_POST['username'])));
-    $result1 = $conn->query(sprintf("SELECT * FROM logIn WHERE email = '%s' ", filter($_POST['email'])));
+    $result = $conn->query(sprintf("SELECT * FROM login WHERE name = '%s' ", filter($_POST['username'])));
+    $result1 = $conn->query(sprintf("SELECT * FROM login WHERE email = '%s' ", filter($_POST['email'])));
     $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
 
     if ((empty(filter($_POST['username']))) || (empty(filter($_POST['email']))) || (empty(filter($_POST['password']))) || (empty(filter($_POST['cpassword'])))) {
@@ -59,7 +59,7 @@ function signup() {
     if (!empty($errors)) {
         echo $errors[0];
     } else {
-        $conn->query(sprintf("INSERT INTO logIn (name, email, password) VALUES ('%s', '%s', '%s')", filter($_POST['username']), filter($_POST['email']), $hash));
+        $conn->query(sprintf("INSERT INTO login (name, email, password) VALUES ('%s', '%s', '%s')", filter($_POST['username']), filter($_POST['email']), $hash));
         $_SESSION["username"] = filter($_POST['username']);
         header("location: login.php");
     }

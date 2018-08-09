@@ -1,7 +1,7 @@
 
 <?php
     echo "<div class='p1'><br />\n" . "Today's Orders: " . "<br />\n</div>";
-    $result = $conn->query("SELECT * FROM foodOrders WHERE date = CURDATE()");
+    $result = $conn->query("SELECT * FROM food_order WHERE date = CURDATE()");
 
     if ($result->num_rows == 0) {
         echo "Be the first to order!";

@@ -35,7 +35,7 @@
             $errors[] = "Please enter an order!";
         }
 
-        $result = $conn->query(sprintf("SELECT * FROM foodOrders WHERE name = '%s' AND date = CURDATE()", $_SESSION['username']));
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE name = '%s' AND date = CURDATE()", $_SESSION['username']));
 
         if (mysqli_num_rows($result) == 1) {
             $errors[] = "Sorry, you have already ordered today, maybe you want to edit your order?";
@@ -44,7 +44,7 @@
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            $conn->query( sprintf("INSERT INTO foodOrders (name, food, date) VALUES ('%s', '%s', NOW())", $_SESSION['username'], filter($_POST['order'])));
+            $conn->query( sprintf("INSERT INTO food_order (name, food, date) VALUES ('%s', '%s', NOW())", $_SESSION['username'], filter($_POST['order'])));
             header("location: orders.php");
             }
     }

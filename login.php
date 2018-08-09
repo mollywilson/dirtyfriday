@@ -31,7 +31,7 @@ function login() {
     include 'inc/filter.php';
     global $conn;
     $errors = [];
-    $result = $conn->query(sprintf("SELECT password FROM logIn WHERE name = '%s'", filter($_POST['username'])));
+    $result = $conn->query(sprintf("SELECT password FROM login WHERE name = '%s'", filter($_POST['username'])));
     $row = $result->fetch_array();
 
     if ((empty(filter($_POST['username']))) || (empty(filter($_POST['password'])))) {
