@@ -24,7 +24,7 @@ function changeEmail() {
     $errors = [];
 
     if ((empty(filter($_POST['newEmail'])))) {
-        $errors[] = "Please fill in your details";
+        $errors[] = "Please enter your email address";
     }
 
     $result = $conn->query(sprintf("SELECT * FROM logIn WHERE email = '%s'", filter($_POST['newEmail'])));
@@ -40,7 +40,7 @@ function changeEmail() {
     if (!empty($errors)) {
         echo $errors[0];
     } else {
-        $conn->query("UPDATE logIn SET email = '%s' WHERE name = '%s'", filter($_POST['newEmail']), $_SESSION['username']));
+        $conn->query(sprintf("UPDATE logIn SET email = '%s' WHERE name = '%s'", filter($_POST['newEmail']), $_SESSION['username']));
         header("Location: account.php");
     }
 }

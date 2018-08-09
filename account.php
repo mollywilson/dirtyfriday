@@ -9,16 +9,14 @@
     }
     ?>
 
-        <p>Username: <?php echo $row['name'] ?>
+    <p>Username: <?php echo $row['name'] ?></p>
 
-    <div class="form>"
-    <form action="email.php">
-        <br><label>Email Address:</label> <?php echo $row['email'] ?>
+    <form class="form" action="email.php">
+        <br><p><label>Email Address:</label> <?php echo $row['email'] ?></p>
         <br><input type="submit" class="btn1" name="changeEmail" value="Change my email address!">
     </form>
 
-    <form action="requestPassword.php">
+    <form class="form" action="requestPassword.php">
         <br><label>Password: </label>
         <br><input type="submit" class="btn1" name="changePassword" value="Change my password!">
     </form>
-    </div>

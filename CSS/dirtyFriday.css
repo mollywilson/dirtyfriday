@@ -16,23 +16,29 @@ a:hover {
     font-size: 40px;
 }
 
-h1 {
-    float: left;
+p {
+    font-size: 20px;
+    text-align: center;
+    margin: 2%;
+}
+
+.p1 {
+    text-align: center;
+    font-size: 22px;
 }
 
 #header {
     overflow: hidden;
-    background-color: #ffb347;
+    background-color: #ff6961;
     padding: 8px 10px;
 }
 
-input[type=submit] {
-    background-color: #ffb347;
+input[type="submit"] {
+    background-color: #ff6961;
     width: 33%;
     margin: 0.5%;
     height: 5%;
     font-size: 100%;
-
 }
 
 input[type=text] {
@@ -50,12 +56,20 @@ input[type=password] {
 }
 
 .form {
-    width: 100%;
-    margin-left: 33%;
-    margin-top: 5%;
+    margin: 2%;
+    text-align: center;
+}
+
+.form1 {
+    margin: 2%
+    text-align: center;
 }
 
 label {
     margin: 0.5%;
     font-size: 20px;
+}
+
+errors {
+    color: red;
 }
