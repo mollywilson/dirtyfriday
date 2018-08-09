@@ -41,7 +41,7 @@ include 'inc/header.php';
             <input type="hidden" name="submitted" value="true" />
             <br><label>Order Number:</label><br><input type="text" name="id">
             <br><label>New Order:</label><br><input type="text" name="order">
-            <br><input type="submit" name="submit" value="Place my Order Again!">
+            <br><input class="submit" type="submit" value="Place my Order Again!">
         </form>
     </body>
 </html>

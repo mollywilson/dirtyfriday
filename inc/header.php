@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="CSS/dirtyFriday.css">
+        <link rel="stylesheet" href="CSS/dirtyfriday.css">
         <title>Dirty Friday</title>
     </head>
     <body>
