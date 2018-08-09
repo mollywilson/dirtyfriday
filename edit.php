@@ -25,7 +25,7 @@ include 'inc/header.php';
         if (!empty($errors)) {
             echo $errors[0];
             } else {
-                $conn->query("UPDATE foodOrders SET food = '%s' WHERE orderID = '%s'", filter($_POST['order']), filter($_POST['id']) );
+                $conn->query(sprintf("UPDATE foodOrders SET food = '%s' WHERE orderID = '%s'", filter($_POST['order']), filter($_POST['id'])));
                 header("location: orders.php");
             }
         }
