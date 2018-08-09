@@ -22,7 +22,7 @@ include 'inc/header.php';
 
         global $conn;
         $errors = [];
-        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE orderID = '%s' AND name = '%s'", $_POST['id'], $_SESSION["username"]));
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE order_id = '%s' AND name = '%s'", $_POST['id'], $_SESSION["username"]));
 
         if (empty($_POST['id'])) {
             $errors[] = "Please enter your order number!";
@@ -35,7 +35,7 @@ include 'inc/header.php';
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            $conn->query(sprintf("DELETE FROM food_order WHERE orderID = '%s'", $_POST['id']));
+            $conn->query(sprintf("DELETE FROM food_order WHERE order_id = '%s'", $_POST['id']));
             header("location: orders.php");
         }
     }
