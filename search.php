@@ -17,7 +17,7 @@
                     echo "Sorry, we couldn't find any orders from " . $_POST['search_date'] . "!" . "<br />\n";
                 } else {
                     while ($row = $result->fetch_assoc()) {
-                        echo $row["orderID"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n";
+                        echo $row["order_id"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n";
                     }
                 }
             }

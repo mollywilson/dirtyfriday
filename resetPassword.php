@@ -55,7 +55,7 @@
             echo $errors[0];
         } else {
             $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
-            $conn->query(sprintf("UPDATE login SET password = '%s' WHERE logIn.email = '%s'", $hash, $record['email']));
+            $conn->query(sprintf("UPDATE users SET password = '%s' WHERE logIn.email = '%s'", $hash, $record['email']));
             $conn->query(sprintf("DELETE FROM reset WHERE selector = '%s'", $selector));
             header("location: login.php");
         }

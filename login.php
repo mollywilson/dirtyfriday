@@ -31,7 +31,7 @@ function login() {
     include 'inc/filter.php';
     global $conn;
     $errors = [];
-    $result = $conn->query(sprintf("SELECT password FROM login WHERE name = '%s'", filter($_POST['username'])));
+    $result = $conn->query(sprintf("SELECT password FROM users WHERE name = '%s'", filter($_POST['username'])));
     $row = $result->fetch_array();
 
     if ((empty(filter($_POST['username']))) || (empty(filter($_POST['password'])))) {
@@ -49,7 +49,8 @@ function login() {
     if (!empty($errors)) {
         echo $errors[0];
     } else {
-        $_SESSION['username'] = filter($_POST['username']);
+        $user_id = ($conn->query(sprintf("SELECT id FROM users WHERE name = '%s'", filter($_POST['username']))))->fetch_assoc();
+        $_SESSION['user_id'] = $user_id["id"];
         header("location: index.php");
     }
 }

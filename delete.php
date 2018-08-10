@@ -8,7 +8,7 @@ include 'inc/header.php';
     <div class="form">
         <form method="post" action="delete.php">
             <input type="hidden" name="submitted" value="true" />
-            <br><label>Order Number:</label><br><input type="text" name="id">
+            <br><label>Order Number:</label><br><input type="text" name="order_id">
             <br><input type="submit" name="submit" value="Delete my order!">
         </form>
     </div>
@@ -22,7 +22,7 @@ include 'inc/header.php';
 
         global $conn;
         $errors = [];
-        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE order_id = '%s' AND name = '%s'", $_POST['id'], $_SESSION["username"]));
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE order_id = '%s' AND login_id = '%s'", $_POST['order_id'], $_SESSION["user_id"]));
 
         if (empty($_POST['id'])) {
             $errors[] = "Please enter your order number!";
@@ -35,7 +35,7 @@ include 'inc/header.php';
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            $conn->query(sprintf("DELETE FROM food_order WHERE order_id = '%s'", $_POST['id']));
+            $conn->query(sprintf("DELETE FROM food_order WHERE order_id = '%s'", $_POST['order_id']));
             header("location: orders.php");
         }
     }

@@ -27,7 +27,7 @@ function changeEmail() {
         $errors[] = "Please enter your email address";
     }
 
-    $result = $conn->query(sprintf("SELECT * FROM login WHERE email = '%s'", filter($_POST['newEmail'])));
+    $result = $conn->query(sprintf("SELECT * FROM users WHERE email = '%s'", filter($_POST['newEmail'])));
 
     if ((mysqli_num_rows($result)) == 1) {
         $errors[] = "Sorry, this email address is taken!";
@@ -40,7 +40,7 @@ function changeEmail() {
     if (!empty($errors)) {
         echo $errors[0];
     } else {
-        $conn->query(sprintf("UPDATE login SET email = '%s' WHERE name = '%s'", filter($_POST['newEmail']), $_SESSION['username']));
+        $conn->query(sprintf("UPDATE users SET email = '%s' WHERE id = '%s'", filter($_POST['newEmail']), $_SESSION['user_id']));
         header("Location: account.php");
     }
 }

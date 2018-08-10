@@ -24,7 +24,10 @@ function requestPassword() {
     include 'inc/filter.php';
     $errors = [];
     $email = filter($_POST['email']);
-    $result = $conn->query(sprintf("SELECT * FROM login WHERE email = '%s'", filter($_POST['email'])));
+    $result = $conn->query(sprintf("SELECT * FROM users WHERE email = '%s'", filter($_POST['email'])));
+    $row = $result->fetch_assoc();
+    $id_user = $row["id"];
+    echo $id_user;
 
     if (empty(filter($_POST['email']))) {
         $errors[] = "Please enter your email address";
@@ -50,10 +53,10 @@ function requestPassword() {
         $expires = new DateTime('NOW');
         $expires->add(new DateInterval('PT01H'));
 
-        $conn->query(sprintf("DELETE FROM reset WHERE email = '%s'", filter($_POST['email'])));
+        $conn->query(sprintf("DELETE FROM reset WHERE user_id = '%s'", $id_user));
 
-        $conn->query(sprintf("INSERT INTO reset (email, token, expires, selector) VALUES ('%s', '%s', '%s', '%s')",
-                    filter($_POST['email']), hash('sha256', $token), $expires->format('U'), $selector));
+        $conn->query(sprintf("INSERT INTO reset (user_id, token, expires, selector) VALUES ('%s', '%s', '%s', '%s')",
+                    $id_user, hash('sha256', $token), $expires->format('U'), $selector));
 
         $sent = mail("$email", 'Dirty Fridays: Forgot my Password',
             "Please click the link below to change your password! If you did not make this request, you can ignore this email." . "\n" . "$url");

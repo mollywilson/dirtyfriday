@@ -2,7 +2,7 @@
     $greeting = "Account Details";
     include 'inc/header.php';
     include 'inc/connect.php';
-    $result = $conn->query(sprintf("SELECT * FROM login WHERE name = '%s'", $_SESSION['username']));
+    $result = $conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id']));
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();

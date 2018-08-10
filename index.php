@@ -1,9 +1,9 @@
 <?php
     include 'inc/connect.php';
-    $greeting = "Place your order " . $_SESSION["username"] . "!";
+    $username = ($conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id'])))->fetch_assoc();
+    $greeting = "Place your order " . $username["name"] . "!";
     include 'inc/header.php';
 ?>
-
 <html>
     <body>
     <div class="form">
@@ -35,7 +35,7 @@
             $errors[] = "Please enter an order!";
         }
 
-        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE name = '%s' AND date = CURDATE()", $_SESSION['username']));
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE user_id = '%s' AND date = CURDATE()", $_SESSION['user_id']));
 
         if (mysqli_num_rows($result) == 1) {
             $errors[] = "Sorry, you have already ordered today, maybe you want to edit your order?";
@@ -44,7 +44,7 @@
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            $conn->query( sprintf("INSERT INTO food_order (name, food, date) VALUES ('%s', '%s', NOW())", $_SESSION['username'], filter($_POST['order'])));
+            $conn->query( sprintf("INSERT INTO food_order (user_id, food, date) VALUES ('%s', '%s', NOW())", $_SESSION['user_id'] , filter($_POST['order'])));
             header("location: orders.php");
             }
     }
