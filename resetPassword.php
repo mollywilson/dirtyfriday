@@ -54,14 +54,12 @@
         if (!empty($errors)) {
             echo $errors[0];
         } else {
-            echo $row['user_id']; //this is the correct user id
             $id_user = $row['user_id'];
-            echo $id_user;
             $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
             //something wrong with this command
             $conn->query(sprintf("UPDATE users SET password = '%s' WHERE id = '%s'", $hash, $id_user));
             $conn->query(sprintf("DELETE FROM reset WHERE selector = '%s'", $selector));
-            //header("location: login.php");
+            header("location: login.php");
         }
     }
 

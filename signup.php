@@ -59,8 +59,13 @@ function signup() {
     if (!empty($errors)) {
         echo $errors[0];
     } else {
-        $conn->query(sprintf("INSERT INTO users (name, email, password) VALUES ('%s', '%s', '%s')", filter($_POST['username']), filter($_POST['email']), $hash));
-        header("location: login.php");
+        $conn->query(sprintf("INSERT INTO users (name, email, password) VALUES ('%s', '%s', '%s')", filter($_POST['username']), filter($_POST['email']), $hash)); ?>
+
+    <form class="form" action="login.php">
+        <br><label>Thank you for signing up</label>
+        <br><input type="submit" class="btn1" name="login" value="Log In!">
+    </form>
+<?php
     }
 }
 

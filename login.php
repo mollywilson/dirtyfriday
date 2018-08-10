@@ -11,6 +11,7 @@
     $greeting = "Log In!";
 
     include 'inc/header2.php';
+
 ?>
     <body>
         <div class="form">
