@@ -9,7 +9,10 @@
     }
     ?>
 
-    <p>Username: <?php echo $row['name'] ?></p>
+    <form class="form" action="username.php">
+        <br><p><label>Username:</label> <?php echo $row['name'] ?></p>
+        <br><input type="submit" class="btn1" name="changeName" value="Change my username!">
+    </form>
 
     <form class="form" action="email.php">
         <br><p><label>Email Address:</label> <?php echo $row['email'] ?></p>

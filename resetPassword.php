@@ -33,7 +33,7 @@
         }
 
         $results = $conn->query(sprintf("SELECT * FROM reset WHERE selector = '%s'", $selector));
-        $record = $results->fetch_assoc();
+        $row = $results->fetch_assoc();
 
         if ((mysqli_num_rows($results)) == 0) {
             $errors[] = "Unfortunately, the request cannot be processed";
@@ -54,10 +54,14 @@
         if (!empty($errors)) {
             echo $errors[0];
         } else {
+            echo $row['user_id']; //this is the correct user id
+            $id_user = $row['user_id'];
+            echo $id_user;
             $hash = password_hash(filter($_POST['password']), PASSWORD_BCRYPT);
-            $conn->query(sprintf("UPDATE users SET password = '%s' WHERE logIn.email = '%s'", $hash, $record['email']));
+            //something wrong with this command
+            $conn->query(sprintf("UPDATE users SET password = '%s' WHERE id = '%s'", $hash, $id_user));
             $conn->query(sprintf("DELETE FROM reset WHERE selector = '%s'", $selector));
-            header("location: login.php");
+            //header("location: login.php");
         }
     }
 

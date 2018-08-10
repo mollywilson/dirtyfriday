@@ -27,7 +27,7 @@ function requestPassword() {
     $result = $conn->query(sprintf("SELECT * FROM users WHERE email = '%s'", filter($_POST['email'])));
     $row = $result->fetch_assoc();
     $id_user = $row["id"];
-    echo $id_user;
+    //echo $id_user;
 
     if (empty(filter($_POST['email']))) {
         $errors[] = "Please enter your email address";
@@ -56,7 +56,7 @@ function requestPassword() {
         $conn->query(sprintf("DELETE FROM reset WHERE user_id = '%s'", $id_user));
 
         $conn->query(sprintf("INSERT INTO reset (user_id, token, expires, selector) VALUES ('%s', '%s', '%s', '%s')",
-                    $id_user, hash('sha256', $token), $expires->format('U'), $selector));
+                    "$id_user", hash('sha256', $token), $expires->format('U'), $selector));
 
         $sent = mail("$email", 'Dirty Fridays: Forgot my Password',
             "Please click the link below to change your password! If you did not make this request, you can ignore this email." . "\n" . "$url");

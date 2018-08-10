@@ -11,7 +11,7 @@
                 echo "Orders from " . $_POST['search_date'] . ":<br />\n";
 
                 global $conn;
-                $result = $conn->query(sprintf("SELECT * FROM food_order WHERE date = '%s'", $_POST['search_date']));
+                $result = $conn->query(sprintf("SELECT * FROM users INNER JOIN food_order WHERE users.id = food_order.user_id AND date = '%s'", $_POST['search_date']));
 
                 if ($result->num_rows == 0) {
                     echo "Sorry, we couldn't find any orders from " . $_POST['search_date'] . "!" . "<br />\n";

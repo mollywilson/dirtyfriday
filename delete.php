@@ -22,9 +22,9 @@ include 'inc/header.php';
 
         global $conn;
         $errors = [];
-        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE order_id = '%s' AND login_id = '%s'", $_POST['order_id'], $_SESSION["user_id"]));
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE order_id = '%s' AND user_id = '%s'", $_POST['order_id'], $_SESSION["user_id"]));
 
-        if (empty($_POST['id'])) {
+        if (empty($_POST['order_id'])) {
             $errors[] = "Please enter your order number!";
         }
 

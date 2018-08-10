@@ -1,6 +1,6 @@
 <?php
 include 'inc/connect.php';
-$greeting = "Edit your order " . $_SESSION["username"] . "!";
+$greeting = "Edit your order!";
 include 'inc/header.php';
 ?>
 
@@ -12,7 +12,7 @@ include 'inc/header.php';
         include 'inc/filter.php';
         $errors = [];
 
-        if ((empty(filter($_POST['id']))) || (empty(filter($_POST['order'])))) { //if empty
+        if ((empty(filter($_POST['order_id']))) || (empty(filter($_POST['order'])))) { //if empty
             $errors[] = 'You must enter an ID and an order';
         }
 
