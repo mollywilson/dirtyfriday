@@ -1,5 +1,11 @@
 <?php
     include 'inc/connect.php';
+
+    if (!isset($_SESSION['user_id'])) {
+        // REDIRECT
+        header("Location: http://molly.localhost/dirtyFriday/login.php");
+    }
+
     $username = ($conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id'])))->fetch_assoc();
     $greeting = "Place your order " . $username["name"] . "!";
     include 'inc/header.php';
