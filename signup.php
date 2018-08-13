@@ -4,7 +4,7 @@ include 'inc/connect.php';
 include 'inc/header2.php';
 ?>
     <body>
-    <div class="form">
+    <div class="form-group text-center">
     <form method="post" action="signup.php">
         <input type="hidden" name="submitted" value="true" />
         <br><label>Username:</label>
@@ -15,7 +15,7 @@ include 'inc/header2.php';
         <br><input type="password" name="password">
         <br><label>Confirm Password:</label>
         <br><input type="password" name="cpassword">
-        <br> <input type="submit" value="Sign Me Up!">
+        <br> <input type="submit" class="btn btn-outline-dark" value="Sign Me Up!">
     </form>
     </div>
     </body>

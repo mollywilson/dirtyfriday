@@ -14,12 +14,12 @@
 
 ?>
     <body>
-        <div class="form">
+        <div class="form-group text-center">
             <form method="post" action="login.php">
                 <input type="hidden" name="submitted" value="true" />
-                <br><label>Username:</label><br><input type="text" name="username">
-                <br><label>Password:</label><br><input type="password" name="password">
-                <br><input type="submit" value="Log Me In!">
+                <br><label>Username:</label><br><input class="col-3" type="text" name="username">
+                <br><label>Password:</label><br><input class="col-3" type="password" name="password">
+                <br><input type="submit" class="btn btn-outline-dark" value="Log Me In!">
             </form>
         </div>
 

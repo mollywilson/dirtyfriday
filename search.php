@@ -1,9 +1,7 @@
 <html>
     <body>
-        <div id="prev">
-            <h2><i>Previous orders!</i></h2>
-        </div>
-        <div id="search">
+        <div class="container">
+            <p class="text-center"><i>Previous orders!<br></i></p>
         <?php
 
             function search() {

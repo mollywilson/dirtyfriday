@@ -9,17 +9,17 @@
     }
     ?>
 
-    <form class="form" action="username.php">
-        <br><p><label>Username:</label> <?php echo $row['name'] ?></p>
-        <br><input type="submit" class="btn1" name="changeName" value="Change my username!">
+    <form class="container text-center" action="username.php">
+        <br><p>Username: <?php echo $row['name'] ?></p>
+        <br><input type="submit" class="btn btn-outline-dark" name="changeName" value="Change my username!">
     </form>
 
-    <form class="form" action="email.php">
-        <br><p><label>Email Address:</label> <?php echo $row['email'] ?></p>
-        <br><input type="submit" class="btn1" name="changeEmail" value="Change my email address!">
+    <form class="container text-center" action="email.php">
+        <br><p class="text-center">Email Address:<?php echo $row['email'] ?></p>
+        <br><input type="submit" class="btn btn-outline-dark" name="changeEmail" value="Change my email address!">
     </form>
 
-    <form class="form" action="requestPassword.php">
-        <br><label>Password: </label>
-        <br><input type="submit" class="btn1" name="changePassword" value="Change my password!">
+    <form class="container text-center" action="requestPassword.php">
+        <br><p class="text-center">Password: </p>
+        <br><input type="submit" class="btn btn-outline-dark" name="changePassword" value="Change my password!">
     </form>

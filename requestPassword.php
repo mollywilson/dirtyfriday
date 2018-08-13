@@ -6,12 +6,12 @@
 ?>
 
 <html>
-    <div class="form">
+    <div class="form-group text-center">
     <form method="post" action="requestPassword.php">
         <input type="hidden" name="submitted" value="true" />
         <br><label>Email:</label>
         <br><input type="text" name="email">
-        <br><input type="submit" value="Send me an Email!">
+        <br><input type="submit" class="btn btn-outline-dark" value="Send me an Email!">
     </form>
     </div>
 </html>

@@ -12,18 +12,18 @@
 ?>
 <html>
     <body>
-    <div class="form">
+    <div class="container text-left">
         <form method="post" action="index.php">
             <input type="hidden" name="submitted" value="true" />
-            <br><label>Order:</label><br><input type="text" name="order">
-            <br><input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
+            <br><p>Order:</p><br><input type="text" name="order">
+            <br><input type="submit" name="submit" class="btn btn-outline-dark" id="btn_sub" value="Place my Order!">
         </form>
     </div>
-    <div class="form">
+    <div class="container text-right">
         <form method="post" action="index.php">
             <input type="hidden" name="search" value="true" />
-            <br><label>Search:</label><br><input type="text" name="search_date" placeholder="yyyy-mm-dd">
-            <br><input type="submit" name="searched" value="Search">
+            Search:   <input type="text" name="search_date" placeholder="yyyy-mm-dd">
+            <input type="submit" class="btn btn-outline-dark" name="searched" value="Search">
         </form>
     </div>
 </body>
