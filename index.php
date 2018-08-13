@@ -5,13 +5,14 @@ include 'inc/header.php';
 
 if (isset($_POST['submitted'])) {
 
-    $order_food = mysqli_real_escape_string($conn, $_POST['order_food']);
-    $order_food = strip_tags($order_food);
+    include 'inc/filter.php';
 
-    if (!empty($order_food)) {
+    $order = filter($_POST['order']);
+
+    if (!empty($order)) {
 
             $sql2 = "INSERT INTO foodOrders (name, food, date) VALUES 
-                    ('".$_SESSION['username']."', '$order_food', NOW())";
+                    ('".$_SESSION['username']."', '$order', NOW())";
 
             if (!mysqli_query($conn, $sql2)) {
                 die('Your order has NOT been placed.');
@@ -30,7 +31,7 @@ if (isset($_POST['submitted'])) {
     <div id="order_form">
         <form method="post" action="index.php">
             <input type="hidden" name="submitted" value="true" />
-            <br>Order: <input type="text" name="order_food">
+            <br>Order: <input type="text" name="order">
             <input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
         </form>
     </div>

@@ -1,8 +1,23 @@
-
-
 <?php
+    if(isset($_SESSION)) {
+        session_destroy();
+    }
+
+    if(!isset($_SESSION)) {
+        session_start();
+    }
+
     include 'inc/connect.php';
     $greeting = "Log In!";
+
+    //function filter($string) {
+    //    $string = strip_tags($string);
+    //    $string = mysqli_real_escape_string($conn, $string);
+
+    //    return $string;
+    //}
+
+    include 'inc/header2.php';
 ?>
 
 <html>
@@ -11,44 +26,48 @@
         <title>Dirty Friday</title>
     </head>
     <body>
-        <div id="header">
-        <a href="signup.php">Sign Up</a>
-        <a href="login.php">Log In</a>
-        <a href="" id="title">Dirty Fridays: <i><?php echo $greeting; ?></i></a>
+
+        <div class="form">
+            <form method="post" action="login.php">
+                <input type="hidden" name="submitted" value="true" />
+                <br>Username:<br> <input type="text" name="username">
+                <br>Password:<br> <input type="password" name="password">
+                <br> <input type="submit" value="Log Me In!">
+            </form>
         </div>
 
-        <form method="post" action="login.php">
-            <input type="hidden" name="submitted" value="true" />
-            <br>Username: <input type="text" name="username">
-            <br>Password: <input type="password" name="password">
-            <br> <input type="submit" value="Log Me In!">
-        </form>
     </body>
 </html>
 
 <?php
 
-    if (isset($_POST['submitted'])) {
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $username = strip_tags($username);
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
-        $password = strip_tags($password);
+    if (isset($_POST['submitted'])) { //if form is submitted
 
-        $sql = "SELECT * FROM logIn WHERE name='".$username."' AND password='".$password."'"; //sql command to test user password
-        $result = mysqli_query($conn, $sql); //user exists
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-        if ((!empty($username)) && (!empty($password))) {
+        $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
+        $result = mysqli_query($conn, $dbpassword);
 
-            if (mysqli_num_rows($result) > 0) {
-                $_SESSION["username"] = $username;
-                header("Location: index.php");
-            }// end of user check
+        if ((!empty($username)) && (!empty($password))) { //if form not empty
+
+            if (mysqli_num_rows($result) > 0) { //if username exists
+                $row = $result->fetch_array();
+                    if (password_verify($password, $row['password'])) {
+                        //echo "SUCCESS";
+                        $_SESSION["username"] = $username;
+                        header("Location: index.php");
+                    }// end of password verify
             else {
                 echo "Your username or password is incorrect";
-            } // end of user else
-        }// end of if empty
+            } // end of password verify else
+        }// end of if username exists
+            else {
+                echo "Your username or password is incorrect";
+            } //end of username exists else
+        }//end of if not empty
         else {
             echo "Please fill in your details";
-        }// end of if empty else
+        }// end of if not empty else
     }// end of isset
 ?>
