@@ -1,62 +1,82 @@
 <?php
-include 'inc/connect.php';
-$greeting = "Place your order " . $_SESSION["username"] . "!";
-include 'inc/header.php';
-
-if (isset($_POST['submitted'])) {
-
-    include 'inc/filter.php';
-
-    $order = filter($_POST['order']);
-
-    if (!empty($order)) {
-
-            $sql2 = "INSERT INTO foodOrders (name, food, date) VALUES 
-                    ('".$_SESSION['username']."', '$order', NOW())";
-
-            if (!mysqli_query($conn, $sql2)) {
-                die('Your order has NOT been placed.');
-            } else {
-                header("location: orders.php");
-            } //end of if order placed else
-        } //end of if empty
-        else {
-            echo "Please fill in your name and order";
-    } //end of if empty else
-} //end of isset
+    include 'inc/connect.php';
+    $username = ($conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id'])))->fetch_assoc();
+    $greeting = "Place your order " . $username["name"] . "!";
+    include 'inc/header.php';
 ?>
-
 <html>
     <body>
-    <div id="order_form">
+    <div class="form">
         <form method="post" action="index.php">
             <input type="hidden" name="submitted" value="true" />
-            <br>Order: <input type="text" name="order">
-            <input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
+            <br><label>Order:</label><br><input type="text" name="order">
+            <br><input type="submit" name="submit"  id="btn_sub" value="Place my Order!">
         </form>
     </div>
-    <div id="search1">
+    <div class="form">
         <form method="post" action="index.php">
             <input type="hidden" name="search" value="true" />
-            Search: <input type="text" name="search_date" placeholder="yyyy-mm-dd">
-            <input type="submit" name="searched" value="Search">
+            <br><label>Search:</label><br><input type="text" name="search_date" placeholder="yyyy-mm-dd">
+            <br><input type="submit" name="searched" value="Search">
         </form>
     </div>
 </body>
+</html>
 
 <?php
 
-$pattern = '/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/';
+    function order() {
 
-if (isset($_POST['search'])) {
-    $string = $_POST['search_date'];
-    if (empty($string)) {
-        echo "<br />\n" . "<br />\n";    } elseif (!preg_match($pattern, $string)) {
-        echo "Please enter a date in the correct format!" . "<br />\n" . "<br />\n" ;
-    } else {
-        include 'search.php';
+        global $conn;
+        $errors = [];
+        include 'inc/filter.php';
+
+        if (empty(filter($_POST['order']))) {
+            $errors[] = "Please enter an order!";
+        }
+
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE user_id = '%s' AND date = CURDATE()", $_SESSION['user_id']));
+
+        if (mysqli_num_rows($result) == 1) {
+            $errors[] = "Sorry, you have already ordered today, maybe you want to edit your order?";
+        }
+
+        if (!empty($errors)) {
+            echo $errors[0];
+        } else {
+            $conn->query( sprintf("INSERT INTO food_order (user_id, food, date) VALUES ('%s', '%s', NOW())", $_SESSION['user_id'] , filter($_POST['order'])));
+            header("location: orders.php");
+            }
     }
-}
-    include 'inc/ordersToday.php';
+
+    if (isset($_POST['submitted'])) {
+        order();
+    }
 ?>
-</html>
+
+<?php
+
+    function searchDate() {
+
+        $errors = [];
+
+        if (empty($_POST['search_date'])) {
+            $errors[] = "Please enter a search date";
+        }
+
+        if (!preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $_POST['search_date'])) {
+            $errors[] =  "Please enter a date in the correct format!";
+        }
+
+        if (!empty($errors)) {
+            echo $errors[0];
+        } else {
+            include 'search.php';
+        }
+    }
+
+    if (isset($_POST['search'])) {
+        searchDate();
+    }
+
+include 'inc/today.php';

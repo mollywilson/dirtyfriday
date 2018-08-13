@@ -1,52 +1,48 @@
 <?php
 include 'inc/connect.php';
-$greeting = "Edit your order " . $_SESSION["username"] . "!";
+$greeting = "Edit your order!";
 include 'inc/header.php';
 ?>
 
 <?php
 
-if (isset($_POST['submitted'])) { //if submitted
+    function edit() {
 
-    $id = $_POST['id'];
-    $order = $_POST['order'];
+        global $conn;
+        include 'inc/filter.php';
+        $errors = [];
 
-    $sql = "SELECT * FROM foodOrders WHERE name='".$_SESSION["username"]."' AND orderID='".$id."'"; //check order is theirs
-    $result = mysqli_query($conn, $sql); //user exists
+        if ((empty(filter($_POST['order_id']))) || (empty(filter($_POST['order'])))) { //if empty
+            $errors[] = 'You must enter an ID and an order';
+        }
 
-    $sql2 = "UPDATE foodOrders SET food='".$order."' WHERE orderID='".$id."'"; //sql to edit order
+        $result = $conn->query(sprintf("SELECT * FROM food_order WHERE user_id = '%s' AND order_id = '%s'", $_SESSION["user_id"], filter($_POST['order_id']))); //user exists
 
-    if ((!empty($id)) && (!empty($order))) { //if not empty
+        if (mysqli_num_rows($result) == 0) {
+            $errors[] = 'You can only edit your own order';
+        }
 
-        if (mysqli_num_rows($result) > 0) { //if username matches the order number
+        if (!empty($errors)) {
+            echo $errors[0];
+        } else {
+            $conn->query(sprintf("UPDATE food_order SET food = '%s' WHERE order_id = '%s'", filter($_POST['order']), filter($_POST['order_id'])));
+            header("location: orders.php");
+        }
+    }
 
-                if (!mysqli_query($conn, $sql2)) { //if cannot be editted
-                    die('Your order has NOT been changed.');
-                    } //end of if not changed
-                else {
-                    header("location: orders.php"); //if can be changed take to orders page
-                } //end of if can change
-            } //end of username matches order number
-            else {
-                echo "You can only edit your own order!";
-                } //end of username order number else
-        } //end of if not empty
-        else {
-            echo "Please fill in the details";
-    } //end of if not empty else
-} //end of if submitted
+    if (isset($_POST['submitted'])) { //if submitted
+        edit();
+    }
 ?>
 
 <html>
     <body>
-    <div id="edit">
-        <form method="post" action="edit.php">
+        <form class="form" method="post" action="edit.php">
             <input type="hidden" name="submitted" value="true" />
-            <br><label>Order Number:</label><input type="text" name="id">
-            <br><label>New Order:</label><input type="text" name="order">
-            <br> <input type="submit" name="submit" value="Place my Order Again!">
+            <br><label>Order Number:</label><br><input type="text" name="order_id">
+            <br><label>New Order:</label><br><input type="text" name="order">
+            <br><input class="submit" type="submit" value="Place my Order Again!">
         </form>
-    </div>
     </body>
 </html>
-<?php include 'inc/ordersToday.php'; ?>
+<?php include 'inc/today.php'; ?>

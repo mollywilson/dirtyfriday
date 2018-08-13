@@ -10,29 +10,16 @@
     include 'inc/connect.php';
     $greeting = "Log In!";
 
-    //function filter($string) {
-    //    $string = strip_tags($string);
-    //    $string = mysqli_real_escape_string($conn, $string);
-
-    //    return $string;
-    //}
-
     include 'inc/header2.php';
+
 ?>
-
-<html>
-    <head>
-        <link rel="stylesheet" href="css/dirtyFriday.css">
-        <title>Dirty Friday</title>
-    </head>
     <body>
-
         <div class="form">
             <form method="post" action="login.php">
                 <input type="hidden" name="submitted" value="true" />
-                <br>Username:<br> <input type="text" name="username">
-                <br>Password:<br> <input type="password" name="password">
-                <br> <input type="submit" value="Log Me In!">
+                <br><label>Username:</label><br><input type="text" name="username">
+                <br><label>Password:</label><br><input type="password" name="password">
+                <br><input type="submit" value="Log Me In!">
             </form>
         </div>
 
@@ -40,34 +27,36 @@
 </html>
 
 <?php
+function login() {
 
-    if (isset($_POST['submitted'])) { //if form is submitted
+    include 'inc/filter.php';
+    global $conn;
+    $errors = [];
+    $result = $conn->query(sprintf("SELECT password FROM users WHERE name = '%s'", filter($_POST['username'])));
+    $row = $result->fetch_array();
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    if ((empty(filter($_POST['username']))) || (empty(filter($_POST['password'])))) {
+        $errors[] = "You must enter your username and password";
+    }
 
-        $dbpassword = "SELECT password FROM logIn WHERE name='".$username."'"; //if username exists
-        $result = mysqli_query($conn, $dbpassword);
+    if (mysqli_num_rows($result) == 0) {
+        $errors[] = "Your username or password is incorrect";
+    }
 
-        if ((!empty($username)) && (!empty($password))) { //if form not empty
+    if (!password_verify(filter($_POST['password']), $row['password'])) {
+        $errors[] = "Your username or password is incorrect";
+    }
 
-            if (mysqli_num_rows($result) > 0) { //if username exists
-                $row = $result->fetch_array();
-                    if (password_verify($password, $row['password'])) {
-                        //echo "SUCCESS";
-                        $_SESSION["username"] = $username;
-                        header("Location: index.php");
-                    }// end of password verify
-            else {
-                echo "Your username or password is incorrect";
-            } // end of password verify else
-        }// end of if username exists
-            else {
-                echo "Your username or password is incorrect";
-            } //end of username exists else
-        }//end of if not empty
-        else {
-            echo "Please fill in your details";
-        }// end of if not empty else
-    }// end of isset
+    if (!empty($errors)) {
+        echo $errors[0];
+    } else {
+        $user_id = ($conn->query(sprintf("SELECT id FROM users WHERE name = '%s'", filter($_POST['username']))))->fetch_assoc();
+        $_SESSION['user_id'] = $user_id["id"];
+        header("location: index.php");
+    }
+}
+
+if (isset($_POST['submitted'])) {
+    login();
+}
 ?>
