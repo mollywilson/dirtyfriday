@@ -18,8 +18,7 @@
 
 <?php
 
-function requestPassword()
-{
+function requestPassword() {
 
     global $conn;
     include 'inc/filter.php';

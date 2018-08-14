@@ -1,5 +1,6 @@
 <?php
     include 'inc/connect.php';
+    //$image = "pics/burger_banner.jpg";
 
     if (!isset($_SESSION['user_id'])) {
         // REDIRECT
@@ -93,7 +94,8 @@
             if (!empty($errors)) {
             echo $errors[0];
             } else {
-            include 'search.php';
+            $_SESSION['search_date'] = $_POST['search_date'];
+            header("Location: search.php");
         }
     }
 
