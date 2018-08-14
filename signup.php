@@ -8,14 +8,14 @@ include 'inc/header2.php';
     <form method="post" action="signup.php">
         <input type="hidden" name="submitted" value="true" />
         <br><label>Username:</label>
-        <br><input type="text" name="username">
+        <br><input class="col-3" type="text" name="username">
         <br><label>Email:</label>
-        <br><input type="text" name="email">
+        <br><input class="col-3" type="text" name="email">
         <br><label>Password:</label>
-        <br><input type="password" name="password">
+        <br><input class="col-3" type="password" name="password">
         <br><label>Confirm Password:</label>
-        <br><input type="password" name="cpassword">
-        <br> <input type="submit" class="btn btn-outline-dark" value="Sign Me Up!">
+        <br><input class="col-3" type="password" name="cpassword">
+        <br><input type="submit" class="btn btn-outline-dark" value="Sign Me Up!">
     </form>
     </div>
     </body>
@@ -61,14 +61,20 @@ function signup() {
     } else {
         $conn->query(sprintf("INSERT INTO users (name, email, password) VALUES ('%s', '%s', '%s')", filter($_POST['username']), filter($_POST['email']), $hash)); ?>
 
-    <form class="form" action="login.php">
-        <br><label>Thank you for signing up</label>
-        <br><input type="submit" class="btn1" name="login" value="Log In!">
-    </form>
+    <div class="container text-center text-success">
+        <form class="form" action="login.php">
+            <br><label>Thank you for signing up</label>
+            <br><input type="submit" class="btn btn-outline-dark" name="login" value="Log In!">
+        </form>
+    </div>
+
 <?php
     }
 }
-
-if (isset($_POST['submitted'])) {
+?>
+<div class="container text-center text-danger">
+    <?php
+    if (isset($_POST['submitted'])) {
     signup();
-}
+    } ?>
+</div>

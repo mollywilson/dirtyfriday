@@ -1,7 +1,7 @@
 <html>
     <body>
-        <div class="container">
-            <p class="text-center"><i>Previous orders!<br></i></p>
+        <div class="container text-body">
+            <p><i>Previous orders!<br></i></p>
         <?php
 
             function search() {
@@ -15,7 +15,7 @@
                     echo "Sorry, we couldn't find any orders from " . $_POST['search_date'] . "!" . "<br />\n";
                 } else {
                     while ($row = $result->fetch_assoc()) {
-                        echo $row["order_id"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n";
+                        echo $row["order_id"] . ". " . $row["name"] . " - " . $row["food"] . "<br />\n" . "<br />\n";
                     }
                 }
             }

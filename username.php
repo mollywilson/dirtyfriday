@@ -4,16 +4,16 @@ include 'inc/header.php';
 include 'inc/connect.php';
 ?>
 
-    <hmtl>
-        <div class="form">
+    <html>
+        <div class="container text-center">
             <form method="post">
                 <input type="hidden" name="submitted" value="true" />
                 <br><label>New Username:</label>
-                <br><input type="text" name="newUsername">
-                <br><input type="submit" value="Change my Username!">
+                <br><input class="col-3" type="text" name="newUsername">
+                <br><input class="btn btn-outline-dark" type="submit" value="Change my Username!">
             </form>
         </div>
-    </hmtl>
+
 
 <?php
 
@@ -24,7 +24,7 @@ function changeUsername() {
     $errors = [];
 
     if ((empty(filter($_POST['newUsername'])))) {
-        $errors[] = "Please enter your username";
+        $errors[] = "Please enter your username!";
     }
 
     $result = $conn->query(sprintf("SELECT * FROM users WHERE name = '%s'", filter($_POST['newUsername'])));
@@ -40,8 +40,13 @@ function changeUsername() {
         $conn->query(sprintf("UPDATE users SET name = '%s' WHERE id = '%s'", filter($_POST['newUsername']), $_SESSION['user_id']));
         header("Location: account.php");
     }
-}
+} ?>
 
-if (isset($_POST['submitted'])) {
-    changeUsername();
-}
+        <div class="container text-center text-danger">
+            <?php
+            if (isset($_POST['submitted'])) {
+                changeUsername();
+            } ?>
+        </div>
+
+   </html>

@@ -1,3 +1,30 @@
+body {
+}
+
 .navbar-brand {
     font-family: 'Rock Salt', cursive;
+}
+
+input[type=submit] {
+    padding: 3px 6px;
+    margin:15px;
+}
+
+label {
+    margin: 12px;
+}
+
+input[type=text], input[type=password] {
+    margin:4px;
+    padding: 1px 10px;
+    border-radius: 25px;
+    outline: 0;
+}
+
+#today {
+    margin-top: 40px;
+}
+
+form, p {
+    margin: 0px;
 }

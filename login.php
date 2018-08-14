@@ -17,14 +17,13 @@
         <div class="form-group text-center">
             <form method="post" action="login.php">
                 <input type="hidden" name="submitted" value="true" />
-                <br><label>Username:</label><br><input class="col-3" type="text" name="username">
-                <br><label>Password:</label><br><input class="col-3" type="password" name="password">
+                <br><label>Username:</label><br><input class="col-3" type="text" autocomplete="new-password" name="username">
+                <br><label>Password:</label><br><input class="col-3" type="password" autocomplete="new-password" name="password">
                 <br><input type="submit" class="btn btn-outline-dark" value="Log Me In!">
             </form>
         </div>
 
-    </body>
-</html>
+
 
 <?php
 function login() {
@@ -36,15 +35,15 @@ function login() {
     $row = $result->fetch_array();
 
     if ((empty(filter($_POST['username']))) || (empty(filter($_POST['password'])))) {
-        $errors[] = "You must enter your username and password";
+        $errors[] = "You must enter your username and password!";
     }
 
     if (mysqli_num_rows($result) == 0) {
-        $errors[] = "Your username or password is incorrect";
+        $errors[] = "Your username or password is incorrect!";
     }
 
     if (!password_verify(filter($_POST['password']), $row['password'])) {
-        $errors[] = "Your username or password is incorrect";
+        $errors[] = "Your username or password is incorrect!";
     }
 
     if (!empty($errors)) {
@@ -55,8 +54,13 @@ function login() {
         header("location: index.php");
     }
 }
-
-if (isset($_POST['submitted'])) {
-    login();
-}
 ?>
+        <div class="container text-center text-danger">
+            <?php
+            if (isset($_POST['submitted'])) {
+                login();
+            }
+            ?>
+        </div>
+    </body>
+</html>

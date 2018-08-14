@@ -4,16 +4,28 @@ include 'inc/header.php';
 include 'inc/connect.php';
 ?>
 
-    <hmtl>
-        <div class="form">
-            <form method="post">
-                <input type="hidden" name="submitted" value="true" />
-                <br><label>New Email Address:</label>
-                <br><input type="text" name="newEmail">
-                <br><input type="submit" value="Update my Email Address!">
-            </form>
+    <html>
+    <div class="container" id="today">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <form method="post">
+                    <input type="hidden" name="submitted" value="true" />
+                    <br><label>New Email Address:</label>
+                    <br><input class="col-3" type="text" name="newEmail">
+                    <br><input class="btn btn-outline-dark" type="submit" value="Update my Email Address!">
+                </form>
+            </div>
         </div>
-    </hmtl>
+        <div class="row">
+            <div class="col-lg-12 text-center text-danger">
+                <?php
+                if (isset($_POST['submitted'])) {
+                changeEmail();
+                } ?>
+            </div>
+        </div>
+    </div>
+    </html>
 
 <?php
 
@@ -24,7 +36,7 @@ function changeEmail() {
     $errors = [];
 
     if ((empty(filter($_POST['newEmail'])))) {
-        $errors[] = "Please enter your email address";
+        $errors[] = "Please enter your email address!";
     }
 
     $result = $conn->query(sprintf("SELECT * FROM users WHERE email = '%s'", filter($_POST['newEmail'])));
@@ -34,7 +46,7 @@ function changeEmail() {
     }
 
     if (!filter_var(filter($_POST['newEmail']), FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Please enter a valid email";
+        $errors[] = "Please enter a valid email!";
     }
 
     if (!empty($errors)) {
@@ -45,6 +57,3 @@ function changeEmail() {
     }
 }
 
-if (isset($_POST['submitted'])) {
-    changeEmail();
-}

@@ -15,7 +15,7 @@
     </form>
 
     <form class="container text-center" action="email.php">
-        <br><p class="text-center">Email Address:<?php echo $row['email'] ?></p>
+        <br><p class="text-center">Email Address: <?php echo $row['email'] ?></p>
         <br><input type="submit" class="btn btn-outline-dark" name="changeEmail" value="Change my email address!">
     </form>
 

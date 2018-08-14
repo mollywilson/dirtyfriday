@@ -9,14 +9,29 @@
 
 <html>
     <body>
-        <form method="post">
-            <input type="hidden" name="submitted" value="true" />
-            <input type="hidden" name="selector" value="<?php echo $selector; ?>">
-            <input type="hidden" name="validator" value="<?php echo $validator; ?>">
-            <br><label>Password:</label><br><input type="password" name="password">
-            <br><label>Confirm Password:</label><br><input type="password" name="confirm">
-            <br><input type="submit" value="Change my Password">
-        </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <form method="post">
+                    <input type="hidden" name="submitted" value="true" />
+                    <input type="hidden" name="selector" value="<?php echo $selector; ?>">
+                    <input type="hidden" name="validator" value="<?php echo $validator; ?>">
+                    <br><label>Password:</label><br><input class="col-3" type="password" name="password">
+                    <br><label>Confirm Password:</label><br><input class="col-3" type="password" name="confirm">
+                    <br><input class="btn btn-outline-dark" type="submit" value="Change my Password">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center text-danger">
+                <?php
+                if (isset($_POST['submitted'])) {
+                resetPassword();
+                } ?>
+            </div>
+        </div>
+    </div>
+
     </body>
 </html>
 
@@ -29,14 +44,14 @@
         $errors = [];
 
         if (true !== ctype_xdigit($selector) || true !== ctype_xdigit($validator)) {
-            $errors[] = "Unfortunately, the request cannot be processed";
+            $errors[] = "Unfortunately, the request cannot be processed.";
         }
 
         $results = $conn->query(sprintf("SELECT * FROM reset WHERE selector = '%s'", $selector));
         $row = $results->fetch_assoc();
 
         if ((mysqli_num_rows($results)) == 0) {
-            $errors[] = "Unfortunately, the request cannot be processed";
+            $errors[] = "Unfortunately, the request cannot be processed.";
         }
 
         if ((empty(filter($_POST['password']))) && empty(filter($_POST['confirm']))) {
@@ -44,7 +59,7 @@
         }
 
         if (strlen(filter($_POST['password'])) < 6) {
-            $errors[] = "Your password must be 6 or more characters";
+            $errors[] = "Your password must be 6 or more characters.";
         }
 
         if (filter($_POST['password']) != filter($_POST['confirm'])) {
@@ -62,8 +77,3 @@
             header("location: login.php");
         }
     }
-
-if (isset($_POST['submitted'])) {
-        resetPassword();
-    }
-?>

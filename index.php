@@ -12,20 +12,44 @@
 ?>
 <html>
     <body>
-    <div class="container text-left">
-        <form method="post" action="index.php">
-            <input type="hidden" name="submitted" value="true" />
-            <br><p>Order:</p><br><input type="text" name="order">
-            <br><input type="submit" name="submit" class="btn btn-outline-dark" id="btn_sub" value="Place my Order!">
-        </form>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-6">
+                <form method="post" action="index.php">
+                    <input type="hidden" name="submitted" value="true" />
+                    <br><label>Order:</label><br><input class="col-6" type="text" name="order">
+                    <br><input type="submit" name="submit" class="btn btn-outline-dark" value="Place my Order!">
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form class="text-right" method="post" action="index.php">
+                    <input type="hidden" name="search" value="true" />
+                    <label>Search:</label><input class="col-3" type="text" name="search_date" placeholder="yyyy-mm-dd">
+                    <input type="submit" class="btn btn-outline-dark" name="searched" value="Search">
+                </form>
+            <div class="text-danger">
+                <?php
+                if (isset($_POST['search'])) {
+                    searchDate();
+                } else {
+                    echo "<br>\n";
+                }?>
+            </div>
+                <div class="col-md-12">
+                    <?php include 'inc/today.php'; ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 text-center text-danger">
+                <?php
+                if (isset($_POST['submitted'])) {
+                order();
+                } ?>
+            </div>
+        </div>
     </div>
-    <div class="container text-right">
-        <form method="post" action="index.php">
-            <input type="hidden" name="search" value="true" />
-            Search:   <input type="text" name="search_date" placeholder="yyyy-mm-dd">
-            <input type="submit" class="btn btn-outline-dark" name="searched" value="Search">
-        </form>
-    </div>
+
 </body>
 </html>
 
@@ -44,7 +68,7 @@
         $result = $conn->query(sprintf("SELECT * FROM food_order WHERE user_id = '%s' AND date = CURDATE()", $_SESSION['user_id']));
 
         if (mysqli_num_rows($result) == 1) {
-            $errors[] = "Sorry, you have already ordered today, maybe you want to edit your order?";
+            $errors[] = "Sorry, you have already ordered today," . "<br>\n" . "maybe you want to edit your order?";
         }
 
         if (!empty($errors)) {
@@ -54,13 +78,6 @@
             header("location: orders.php");
             }
     }
-
-    if (isset($_POST['submitted'])) {
-        order();
-    }
-?>
-
-<?php
 
     function searchDate() {
 
@@ -73,16 +90,12 @@
         if (!preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $_POST['search_date'])) {
             $errors[] =  "Please enter a date in the correct format!";
         }
-
-        if (!empty($errors)) {
+            if (!empty($errors)) {
             echo $errors[0];
-        } else {
+            } else {
             include 'search.php';
         }
     }
 
-    if (isset($_POST['search'])) {
-        searchDate();
-    }
+    ?>
 
-include 'inc/today.php';

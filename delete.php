@@ -5,12 +5,25 @@ include 'inc/header.php';
 ?>
     <html>
     <body>
-    <div class="form">
-        <form method="post" action="delete.php">
-            <input type="hidden" name="submitted" value="true" />
-            <br><label>Order Number:</label><br><input type="text" name="order_id">
-            <br><input type="submit" name="submit" value="Delete my order!">
-        </form>
+    <div class="container text-center">
+        <div class="row">
+            <form class="col-lg-6 text-center" method="post" action="delete.php">
+                <input type="hidden" name="submitted" value="true" />
+                <br><label>Order Number:</label><br><input class="col-6" type="text" name="order_id">
+                <br><input class="btn btn-outline-dark" type="submit" name="submit" value="Delete my order!">
+            </form>
+            <div class="col-lg-6 text-center">
+                <?php include 'inc/today.php'; ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 text-center text-danger">
+                <?php
+                if (isset($_POST['submitted'])) {
+                    delete();
+                } ?>
+            </div>
+        </div>
     </div>
 
     </body>
@@ -38,11 +51,7 @@ include 'inc/header.php';
             $conn->query(sprintf("DELETE FROM food_order WHERE order_id = '%s'", $_POST['order_id']));
             header("location: orders.php");
         }
-    }
+    } ?>
 
-    if (isset($_POST['submitted'])) {
-        delete();
-    }
 
-    include 'inc/today.php';
-?>
+
