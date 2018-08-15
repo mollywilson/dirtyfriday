@@ -1,11 +1,11 @@
 <?php
-$greeting = "Delete your order!";
-include 'inc/connect.php';
+$image = "pics/noodles_banner.jpg";
 include 'inc/header.php';
 ?>
     <html>
     <body>
-    <div class="container text-center">
+    <div class="container fill text-center col-lg-12 bg-light">
+        <?php include 'inc/header1.php'; ?>
         <div class="row">
             <form class="col-lg-6 text-center" method="post" action="delete.php">
                 <input type="hidden" name="submitted" value="true" />
@@ -15,17 +15,17 @@ include 'inc/header.php';
             <div class="col-lg-6 text-center">
                 <?php include 'inc/today.php'; ?>
             </div>
-        </div>
-        <div class="row">
+        </div> <!-- delete form & today's orders-->
+        <div class="row"> <!-- errors -->
             <div class="col-lg-6 text-center text-danger">
                 <?php
                 if (isset($_POST['submitted'])) {
                     delete();
                 } ?>
             </div>
-        </div>
+        </div> <!-- errors -->
+        <?php include 'inc/footer.php'; ?>
     </div>
-
     </body>
     </html>
 
@@ -52,6 +52,3 @@ include 'inc/header.php';
             header("location: orders.php");
         }
     } ?>
-
-
-

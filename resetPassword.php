@@ -1,7 +1,6 @@
 <?php
-    $greeting = "Change my Password";
-    include 'inc/header2.php';
-    include 'inc/connect.php';
+    $image = "pics/stirfry_banner.jpg";
+    include 'inc/header.php';
 
     $selector = filter_input(INPUT_GET, 'selector');
     $validator = filter_input(INPUT_GET, 'validator');
@@ -9,9 +8,10 @@
 
 <html>
     <body>
-    <div class="container">
+    <div class="container fill col-lg-12 bg-light">
+        <?php include 'inc/header2.php'; ?>
         <div class="row">
-            <div class="col-lg-12 text-center">
+            <div class="text-center col-lg-12">
                 <form method="post">
                     <input type="hidden" name="submitted" value="true" />
                     <input type="hidden" name="selector" value="<?php echo $selector; ?>">
@@ -21,7 +21,7 @@
                     <br><input class="btn btn-outline-dark" type="submit" value="Change my Password">
                 </form>
             </div>
-        </div>
+        </div> <!-- password form -->
         <div class="row">
             <div class="col-lg-12 text-center text-danger">
                 <?php
@@ -29,9 +29,9 @@
                 resetPassword();
                 } ?>
             </div>
-        </div>
+        </div> <!-- errors -->
+        <?php include 'inc/footer.php'; ?>
     </div>
-
     </body>
 </html>
 

@@ -1,18 +1,17 @@
 <?php
-$greeting = "Change my username";
-include 'inc/header.php';
-include 'inc/connect.php';
+    $image = "pics/chicken_banner.jpg";
+    include 'inc/header.php';
 ?>
 
-    <html>
-        <div class="container text-center">
-            <form method="post">
-                <input type="hidden" name="submitted" value="true" />
-                <br><label>New Username:</label>
-                <br><input class="col-3" type="text" name="newUsername">
-                <br><input class="btn btn-outline-dark" type="submit" value="Change my Username!">
-            </form>
-        </div>
+<html>
+    <div class="container fill text-center bg-light col-lg-12">
+        <?php include 'inc/header1.php'; ?>
+        <form method="post">
+            <input type="hidden" name="submitted" value="true" />
+            <br><label>New Username:</label>
+            <br><input class="col-3" type="text" name="newUsername">
+            <br><input class="btn btn-outline-dark" type="submit" value="Change my Username!">
+        </form>
 
 
 <?php
@@ -48,5 +47,6 @@ function changeUsername() {
                 changeUsername();
             } ?>
         </div>
-
+        <?php include 'inc/footer.php'; ?>
+    </div>
    </html>

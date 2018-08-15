@@ -1,11 +1,11 @@
 <?php
-$greeting = "Update my Email Address";
+$image = "pics/pizza_banner.jpg";
 include 'inc/header.php';
-include 'inc/connect.php';
 ?>
 
     <html>
-    <div class="container" id="today">
+    <div class="container fill col-lg-12 bg-light" id="today">
+        <?php include 'inc/header1.php'; ?>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <form method="post">
@@ -15,7 +15,7 @@ include 'inc/connect.php';
                     <br><input class="btn btn-outline-dark" type="submit" value="Update my Email Address!">
                 </form>
             </div>
-        </div>
+        </div> <!-- email update form -->
         <div class="row">
             <div class="col-lg-12 text-center text-danger">
                 <?php
@@ -23,7 +23,8 @@ include 'inc/connect.php';
                 changeEmail();
                 } ?>
             </div>
-        </div>
+        </div> <!-- errors -->
+        <?php include 'inc/footer.php'; ?>
     </div>
     </html>
 
@@ -56,4 +57,3 @@ function changeEmail() {
         header("Location: account.php");
     }
 }
-

@@ -1,13 +1,13 @@
 <?php
-include 'inc/connect.php';
-$greeting = "Edit your order!";
-include 'inc/header.php';
+    $image = "pics/indian_banner.jpg";
+    include 'inc/header.php';
 ?>
 
 
 <html>
 <body>
-<div class="container">
+<div class="container fill col-lg-12 bg-light">
+    <?php include 'inc/header1.php'; ?>
     <div class="row">
         <div class="col-lg-6 text-center">
             <form class="form" method="post" action="edit.php">
@@ -20,7 +20,7 @@ include 'inc/header.php';
         <div class="col-lg-6">
             <?php include 'inc/today.php'; ?>
         </div>
-    </div>
+    </div> <!-- edit form and today's orders -->
     <div class="row">
         <div class="col-lg-6 text-center text-danger">
             <?php
@@ -29,7 +29,8 @@ include 'inc/header.php';
             }
             ?>
         </div>
-    </div>
+    </div> <!-- errors -->
+    <?php include 'inc/footer.php'; ?>
 </div>
 </body>
 </html>
@@ -59,6 +60,3 @@ include 'inc/header.php';
             header("location: orders.php");
         }
     } ?>
-
-
-

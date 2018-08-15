@@ -1,6 +1,6 @@
 <?php
-    include 'inc/connect.php';
-    //$image = "pics/burger_banner.jpg";
+    include 'inc/header.php';
+    $image = "pics/chips_banner.jpg";
 
     if (!isset($_SESSION['user_id'])) {
         // REDIRECT
@@ -9,38 +9,44 @@
 
     $username = ($conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id'])))->fetch_assoc();
     $greeting = "Place your order " . $username["name"] . "!";
-    include 'inc/header.php';
 ?>
 <html>
     <body>
-    <div class="container text-center">
+    <div class="container fill text-center col-lg-12 bg-light">
+        <?php include 'inc/header1.php'; ?>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-7"></div>
+            <div class="col-lg-5">
+            <form class="text-center" method="post" action="index.php">
+                <input type="hidden" name="search" value="true" />
+                <label>Search:</label><input class="col-5 text-center" type="text" name="search_date" placeholder="yyyy-mm-dd">
+                <input type="submit" class="btn btn-outline-dark" name="searched" value="Search">
+            </form>
+        </div>
+        </div> <!-- search bar -->
+        <div class="row">
+                <div class="col-lg-7"> <br> </div>
+                <div class="col-lg-5 text-danger text-center">
+                    <?php
+                    if (isset($_POST['search'])) {
+                        searchDate();
+                    } else {
+                        echo "<br>\n";
+                    }?>
+                </div>
+            </div> <!-- search errors -->
+        <div class="row">
+            <div class="col-lg-6"> <!-- place order and today's order -->
                 <form method="post" action="index.php">
                     <input type="hidden" name="submitted" value="true" />
                     <br><label>Order:</label><br><input class="col-6" type="text" name="order">
                     <br><input type="submit" name="submit" class="btn btn-outline-dark" value="Place my Order!">
                 </form>
             </div>
-            <div class="col-md-6">
-                <form class="text-right" method="post" action="index.php">
-                    <input type="hidden" name="search" value="true" />
-                    <label>Search:</label><input class="col-3" type="text" name="search_date" placeholder="yyyy-mm-dd">
-                    <input type="submit" class="btn btn-outline-dark" name="searched" value="Search">
-                </form>
-            <div class="text-danger">
-                <?php
-                if (isset($_POST['search'])) {
-                    searchDate();
-                } else {
-                    echo "<br>\n";
-                }?>
-            </div>
-                <div class="col-md-12">
+                <div class="col-lg-6">
                     <?php include 'inc/today.php'; ?>
                 </div>
-            </div>
-        </div>
+            </div> <!-- order form and today's order -->
         <div class="row">
             <div class="col-lg-6 text-center text-danger">
                 <?php
@@ -48,10 +54,11 @@
                 order();
                 } ?>
             </div>
-        </div>
+            <div class="col-lg-6"></div>
+        </div> <!-- order form errors -->
+        <?php include 'inc/footer.php'; ?>
     </div>
-
-</body>
+    </body>
 </html>
 
 <?php
@@ -85,7 +92,7 @@
         $errors = [];
 
         if (empty($_POST['search_date'])) {
-            $errors[] = "Please enter a search date";
+            $errors[] = "Please enter a search date!";
         }
 
         if (!preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $_POST['search_date'])) {
@@ -98,6 +105,4 @@
             header("Location: search.php");
         }
     }
-
     ?>
-

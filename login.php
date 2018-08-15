@@ -7,20 +7,22 @@
         session_start();
     }
 
-    include 'inc/connect.php';
+    $image = "pics/kfc_banner.jpg";
     $greeting = "Log In!";
-
-    include 'inc/header2.php';
 
 ?>
     <body>
-        <div class="form-group text-center">
-            <form method="post" action="login.php">
-                <input type="hidden" name="submitted" value="true" />
-                <br><label>Username:</label><br><input class="col-3" type="text" autocomplete="new-password" name="username">
-                <br><label>Password:</label><br><input class="col-3" type="password" autocomplete="new-password" name="password">
-                <br><input type="submit" class="btn btn-outline-dark" value="Log Me In!">
-            </form>
+        <div class="container fill col-lg-12 bg-light text-center">
+            <?php include 'inc/header2.php'; ?>
+            <div class="row">
+                <form class="col-lg-12" method="post" action="login.php">
+                    <input type="hidden" name="submitted" value="true" />
+                    <br><label>Username:</label><br><input class="col-3" type="text" autocomplete="new-password" name="username">
+                    <br><label>Password:</label><br><input class="col-3" type="password" autocomplete="new-password" name="password">
+                    <br><input type="submit" class="btn btn-outline-dark" value="Log Me In!">
+                </form>
+            </div> <!-- sign in form -->
+            <?php include 'inc/footer.php' ?>
         </div>
 
 

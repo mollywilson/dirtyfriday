@@ -1,19 +1,22 @@
 <?php
-    $greeting = "Change my Password!";
-    include 'inc/header2.php';
-    include 'inc/connect.php';
+    $image = "pics/spring_roll_banner.jpg";
+    include 'inc/header.php';
 
 ?>
 
 <html>
 <body>
-    <div class="form-group text-center">
-    <form method="post" action="requestPassword.php">
-        <input type="hidden" name="submitted" value="true" />
-        <br><label>Email:</label>
-        <br><input class="col-3" type="text" name="email">
-        <br><input type="submit" class="btn btn-outline-dark" value="Send me an Email!">
-    </form>
+    <div class="container fill text-center col-lg-12 bg-light">
+        <?php include 'inc/header2.php'; ?>
+        <div class="row">
+            <form class="col-lg-12" method="post" action="requestPassword.php">
+                <input type="hidden" name="submitted" value="true" />
+                <br><label>Email:</label>
+                <br><input class="col-4" type="text" name="email">
+                <br><input type="submit" class="btn btn-outline-dark" value="Send me an Email!">
+            </form>
+        </div> <!-- email form -->
+        <?php include 'inc/footer.php'; ?>
     </div>
 
 <?php
@@ -74,5 +77,5 @@ function requestPassword() {
         }
         ?>
     </div>
-        </body>
+</body>
 </html>
