@@ -47,9 +47,9 @@
                 <form method="post" action="index.php">
                     <input type="hidden" name="submitted" value="true" />
                     <input class="col-6" type="text" name="order_1">
-                    <input class="col-6" type="text" name="order_1">
-                    <input class="col-6" type="text" name="order_1">
-                    <input class="col-6" type="text" name="order_1">
+                    <input class="col-6" type="text" name="order_2">
+                    <input class="col-6" type="text" name="order_3">
+                    <input class="col-6" type="text" name="order_4">
                     <br><input type="submit" name="submit" class="btn btn-outline-dark" value="Place my Order!">
                 </form>
             </div>

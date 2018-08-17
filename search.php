@@ -36,7 +36,7 @@
                     echo sprintf("Sorry, there were no orders on %s!", $_SESSION['search_date']);
                 } else {
                     foreach ($ordersResults as $order) {
-                        echo sprintf("%s - %s", $order['name'], implode(', ', $order['items']));
+                        echo sprintf("%s - %s" . "<br>\n", $order['name'], implode(', ', $order['items']));
                         }
                     }
                 }

@@ -8,25 +8,27 @@
     }
     ?>
 
-    <div class="container fill col-lg-12 bg-light">
-        <?php include 'inc/header1.php'; ?>
-        <div class="row">
-            <form class="container text-center" action="username.php">
-                <br><p>Username: <?php echo $row['name'] ?></p>
-                <br><input type="submit" class="btn btn-outline-dark" name="changeName" value="Change my username!">
-            </form>
-        </div> <!-- username form -->
-        <div class="row">
-            <form class="container text-center" action="email.php">
-                <br><p class="text-center">Email Address: <?php echo $row['email'] ?></p>
-                <br><input type="submit" class="btn btn-outline-dark" name="changeEmail" value="Change my email address!">
-            </form>
-        </div> <!-- email form -->
-        <div class="row"> <!-- password form -->
-            <form class="container text-center" action="requestPassword.php">
-                <br><p class="text-center">Password: </p>
-                <br><input type="submit" class="btn btn-outline-dark" name="changePassword" value="Change my password!">
-            </form>
-        </div> <!-- password form -->
-        <?php include 'inc/footer.php'; ?>
+    <div class="container fill col-lg-12">
+        <div class="bg-light">
+            <?php include 'inc/header1.php'; ?>
+            <div class="row">
+                <form class="container text-center" action="username.php">
+                    <br><p>Username: <?php echo $row['name'] ?></p>
+                    <br><input type="submit" class="btn btn-outline-dark" name="changeName" value="Change my username!">
+                </form>
+            </div> <!-- username form -->
+            <div class="row">
+                <form class="container text-center" action="email.php">
+                    <br><p class="text-center">Email Address: <?php echo $row['email'] ?></p>
+                    <br><input type="submit" class="btn btn-outline-dark" name="changeEmail" value="Change my email address!">
+                </form>
+            </div> <!-- email form -->
+            <div class="row"> <!-- password form -->
+                <form class="container text-center" action="requestPassword.php">
+                    <br><p class="text-center">Password: </p>
+                    <br><input type="submit" class="btn btn-outline-dark" name="changePassword" value="Change my password!">
+                </form>
+            </div> <!-- password form -->
+            <?php include 'inc/footer.php'; ?>
+        </div>
     </div>

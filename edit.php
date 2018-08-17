@@ -28,9 +28,14 @@
                 <?php if (count($ordersResults) === 0) {
                     echo "shouldn't be on this page at all";
                 } else {
+
+                    ?>
+                <input type="hidden" name="order_id" value="<?=$orderId;?>">
+                    <?php
+
                     $selectQuery = mysqli_query($conn, sprintf("SELECT * FROM food_items WHERE order_id = '%s'", $orderId));
                     foreach ($selectQuery as $item) { ?>
-                        <input class="col-6" type="text" value="<?php echo $item['item']; ?>" name="order_1"><br>
+                        <input class="col-6" type="text" value="<?php echo $item['item']; ?>" name="items[<?= $item['item_id'];?>]"><br>
                     <?php } ?>
                      <input class="btn btn-outline-dark" type="submit" value="Place my Order Again!">
                     </form>
@@ -72,52 +77,11 @@
         global $conn;
         include 'inc/filter.php';
 
-        if (empty(filter($_POST['order_1']))) {
-            $errors[] = "Please enter an order!";
-        } //check order is not completely empty
+        foreach ($_POST['items'] as $k => $item) {
+            $conn->query(sprintf(
+                    "UPDATE food_items SET item = '%s' WHERE item_id = '%s'", $item, $k));
 
-        echo $orderId;
-
-        $deleteOrder = sprintf("DELETE FROM food_order WHERE order_id = '%s'", $orderId);
-        $deleteItem = sprintf("DELETE FROM food_order WHERE order_id = '%s'", $orderId);
-
-        if (!mysqli_query($conn, $deleteOrder)) {
-            $errors[] = "Order cannot be deleted";
         }
-
-        if (!mysqli_query($conn, $deleteItem)) {
-            $errors[] = "Items cannot be deleted";
-        }
-
-        if (!empty($errors)) {
-            echo $errors[0];
-        } else {
-            $conn->query(sprintf("INSERT INTO food_order (user_id, date) VALUES ('%s', NOW())", $_SESSION['user_id']));
-            $items = [];
-
-            if (!empty($_POST['order_1'])) {
-                $items[] .= $_POST['order_1'];
-            }
-//            if (!empty($_POST['order_2'])) {
-//                $items[] .= $_POST['order_2'];
-//            }
-//            if (!empty($_POST['order_3'])) {
-//                $items[] .= $_POST['order_3'];
-//            }
-//            if (!empty($_POST['order_4'])) {
-//                $items[] .= $_POST['order_4'];
-//            }
-
-//            $result = $conn->query(sprintf("SELECT order_id FROM food_order WHERE user_id = '%s' AND date = CURDATE()", $_SESSION['user_id']));
-//            if ($result->num_rows == 1) {
-//                $row = $result->fetch_assoc();
-//            }
-//            $order_id = $row['order_id'];
-
-            foreach ($items as $item) {
-                $conn->query(sprintf("INSERT INTO food_items (order_id, item) VALUES ('%s', '%s')", $orderId, $item));
-                //header("location: orders.php");
-            }
-        }
+        header("location: orders.php");
     }
     ?>

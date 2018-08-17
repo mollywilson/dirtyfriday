@@ -21,7 +21,17 @@
                     <br><label>Password:</label><br><input class="col-3" type="password" autocomplete="new-password" name="password">
                     <br><input type="submit" class="btn btn-outline-dark" value="Log Me In!">
                 </form>
-            </div> <!-- sign in form -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center text-danger">
+                    <?php
+                    if (isset($_POST['submitted'])) {
+                        login();
+                    }
+                    ?>
+                </div>
+            </div>
+            <!-- sign in form -->
             <?php include 'inc/footer.php' ?>
         </div>
 
@@ -29,7 +39,6 @@
 
 <?php
 function login() {
-
     include 'inc/filter.php';
     global $conn;
     $errors = [];
@@ -57,12 +66,5 @@ function login() {
     }
 }
 ?>
-        <div class="container text-center text-danger">
-            <?php
-            if (isset($_POST['submitted'])) {
-                login();
-            }
-            ?>
-        </div>
     </body>
 </html>
