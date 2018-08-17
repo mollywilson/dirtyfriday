@@ -12,7 +12,7 @@
             <form class="col-lg-12" method="post" action="requestPassword.php">
                 <input type="hidden" name="submitted" value="true" />
                 <br><label>Email:</label>
-                <br><input class="col-4" type="text" name="email">
+                <br><input class="col-3" type="text" name="email">
                 <br><input type="submit" class="btn btn-outline-dark" value="Send me an Email!">
             </form>
         </div> <!-- email form -->

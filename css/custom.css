@@ -51,3 +51,14 @@ form, p {
 #img {
     object-fit: cover;
 }
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px;
+}
+
+.btn {
+    padding: 0 2px;
+    margin: 2px;
+}
