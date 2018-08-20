@@ -2,11 +2,7 @@
     $image = "pics/burger_banner.jpg";
     include 'inc/header.php';
 ?>
-
-<html>
-<body>
     <div class="container fill text-body col-lg-12 bg-light">
-        <?php include 'inc/header1.php'; ?>
         <div class="row">
             <div class="col-lg-12"><br><br><br><br></div>
         </div>
@@ -45,4 +41,3 @@
         </div>
         </div> <!-- search results -->
         <?php include 'inc/footer.php'; ?>
-    </div>

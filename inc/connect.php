@@ -13,10 +13,6 @@ mysqli_select_db($conn,$dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-    if(!isset($_SESSION)) {
-        session_start();
-    }
 ?>
 
 

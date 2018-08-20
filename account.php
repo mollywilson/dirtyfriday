@@ -10,7 +10,6 @@
 
     <div class="container fill col-lg-12">
         <div class="bg-light">
-            <?php include 'inc/header1.php'; ?>
             <div class="row">
                 <form class="container text-center" action="username.php">
                     <br><p>Username: <?php echo $row['name'] ?></p>
@@ -30,5 +29,3 @@
                 </form>
             </div> <!-- password form -->
             <?php include 'inc/footer.php'; ?>
-        </div>
-    </div>

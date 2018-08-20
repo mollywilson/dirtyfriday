@@ -3,9 +3,7 @@
     include 'inc/header.php';
 ?>
 
-<html>
     <div class="container fill text-center bg-light col-lg-12">
-        <?php include 'inc/header1.php'; ?>
         <form method="post">
             <input type="hidden" name="submitted" value="true" />
             <br><label>New Username:</label>
@@ -48,5 +46,3 @@ function changeUsername() {
             } ?>
         </div>
         <?php include 'inc/footer.php'; ?>
-    </div>
-   </html>

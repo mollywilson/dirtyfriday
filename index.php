@@ -1,7 +1,7 @@
 <?php
+    $image = "pics/chips_banner.jpg";
     include 'inc/header.php';
     include 'inc/OrderRepository.php';
-    $image = "pics/chips_banner.jpg";
 
     if (!isset($_SESSION['user_id'])) {
         // REDIRECT
@@ -11,10 +11,7 @@
     $username = ($conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id'])))->fetch_assoc();
     $greeting = "Place your order " . $username["name"] . "!";
 ?>
-<html>
-    <body>
     <div class="container fill text-center col-lg-12 bg-light">
-        <?php include 'inc/header1.php'; ?>
         <div class="row">
             <div class="col-lg-7"></div>
             <div class="col-lg-5">
@@ -80,9 +77,6 @@
         </div>
          <!-- order form errors -->
         <?php include 'inc/footer.php'; ?>
-    </div>
-    </body>
-</html>
 
 <?php
 

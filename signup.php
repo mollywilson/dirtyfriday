@@ -2,9 +2,8 @@
 $image = "pics/chicken1_banner.jpg";
 include 'inc/header.php';
 ?>
-    <body>
     <div class="container fill text-center col-lg-12 bg-light">
-        <?php include 'inc/header2.php'; ?>
+
         <div class="row">
             <div class="container col-lg-12">
                 <form method="post" action="signup.php">
@@ -62,11 +61,13 @@ function signup() {
     } else {
         $conn->query(sprintf("INSERT INTO users (name, email, password) VALUES ('%s', '%s', '%s')", filter($_POST['username']), filter($_POST['email']), $hash)); ?>
         <div class="row">
-            <div class="container text-center text-success">
+            <div class="container">
+              <div class=" text-center text-success bg-light">
                 <form class="form" action="login.php">
                     <br><label>Thank you for signing up</label>
                     <br><input type="submit" class="btn btn-outline-dark" name="login" value="Log In!">
                 </form>
+              </div>
             </div>
         </div>
 
@@ -82,6 +83,4 @@ function signup() {
                 } ?>
             </div>
         </div> <!-- signup form -->
-        <?php include 'inc/footer.php'; ?></div>
-    </body>
-</html>
+        <?php include 'inc/footer.php'; ?>

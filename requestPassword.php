@@ -3,11 +3,7 @@
     include 'inc/header.php';
 
 ?>
-
-<html>
-<body>
     <div class="container fill text-center col-lg-12 bg-light">
-        <?php include 'inc/header2.php'; ?>
         <div class="row">
             <form class="col-lg-12" method="post" action="requestPassword.php">
                 <input type="hidden" name="submitted" value="true" />
@@ -17,7 +13,6 @@
             </form>
         </div> <!-- email form -->
         <?php include 'inc/footer.php'; ?>
-    </div>
 
 <?php
 
@@ -77,5 +72,3 @@ function requestPassword() {
         }
         ?>
     </div>
-</body>
-</html>

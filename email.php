@@ -3,9 +3,7 @@
     include 'inc/header.php';
 ?>
 
-    <html>
     <div class="container fill col-lg-12 bg-light" id="today">
-        <?php include 'inc/header1.php'; ?>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <form method="post">
@@ -25,8 +23,6 @@
             </div>
         </div> <!-- errors -->
         <?php include 'inc/footer.php'; ?>
-    </div>
-    </html>
 
 <?php
     function changeEmail() {

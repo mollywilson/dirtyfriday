@@ -1,19 +1,12 @@
 <?php
-    if(isset($_SESSION)) {
-        session_destroy();
-    }
-
-    if(!isset($_SESSION)) {
-        session_start();
-    }
-
     $image = "pics/kfc_banner.jpg";
+    include "inc/header.php";
+
     $greeting = "Log In!";
 
 ?>
-    <body>
         <div class="container fill col-lg-12 bg-light text-center">
-            <?php include 'inc/header2.php'; ?>
+
             <div class="row">
                 <form class="col-lg-12" method="post" action="login.php">
                     <input type="hidden" name="submitted" value="true" />

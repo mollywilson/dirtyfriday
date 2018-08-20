@@ -1,15 +1,11 @@
 <?php
-    $image = "pics/stirfry_banner.jpg";
+    $image = "pics/noodles_banner.jpg";
     include 'inc/header.php';
 
     $selector = filter_input(INPUT_GET, 'selector');
     $validator = filter_input(INPUT_GET, 'validator');
 ?>
-
-<html>
-    <body>
     <div class="container fill col-lg-12 bg-light">
-        <?php include 'inc/header2.php'; ?>
         <div class="row">
             <div class="text-center col-lg-12">
                 <form method="post">
@@ -31,9 +27,6 @@
             </div>
         </div> <!-- errors -->
         <?php include 'inc/footer.php'; ?>
-    </div>
-    </body>
-</html>
 
 <?php
 

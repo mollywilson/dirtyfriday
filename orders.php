@@ -1,4 +1,3 @@
-<html>
 <?php
     include 'inc/OrderRepository.php';
     $image = "pics/chippy1_banner.jpg";
@@ -10,7 +9,6 @@
 ?>
 
     <div class="container fill bg-light col-lg-12">
-        <?php include 'inc/header1.php'; ?>
         <div class="row">
             <div class="col-lg-12 text-center"></div>
         </div> <!-- filler -->
@@ -41,7 +39,3 @@
             </div>
         </div> <!-- orders -->
         <?php include 'inc/footer.php'; ?>
-    </div>
-</html>
-
-
