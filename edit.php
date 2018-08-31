@@ -27,7 +27,9 @@
                     ?>
                 <input type="hidden" name="order_id" value="<?=$orderId;?>">
                     <?php
-                    $selectQuery = mysqli_query($conn, sprintf("SELECT * FROM food_items WHERE order_id = '%s'", $orderId));
+                    $getOrderId = mysqli_query($conn, sprintf("SELECT order_id FROM food_order WHERE user_id = '%s' AND date = CURDATE()", $_SESSION['user_id']));
+                    $row = mysqli_fetch_array($getOrderId);
+                    $selectQuery = mysqli_query($conn, sprintf("SELECT * FROM food_items WHERE order_id = '%s'", $row[0]));
                     foreach ($selectQuery as $item) { ?>
                         <input class="col-6" type="text" value="<?php echo $item['item']; ?>" name="items[<?= $item['item_id'];?>]"><br>
                     <?php } ?>
@@ -64,13 +66,12 @@
 <?php
     function edit() {
 
-        global $orderId;
         global $conn;
         include 'inc/filter.php';
 
         foreach ($_POST['items'] as $key => $item) {
             $conn->query(sprintf(
-                    "UPDATE food_items SET item = '%s' WHERE item_id = '%s'", $item, $key));
+                    "UPDATE food_items SET item = '%s' WHERE item_id = '%s'", filter($item), $key));
 
         }
         header("location: orders.php");

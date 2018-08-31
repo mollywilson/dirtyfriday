@@ -124,9 +124,9 @@
             $order_id = $row['order_id'];
 
             foreach ($items as $item) {
-                $conn->query(sprintf("INSERT INTO food_items (order_id, item) VALUES ('%s', '%s')", $order_id, $item));
-                header("location: orders.php");
+                $conn->query(sprintf("INSERT INTO food_items (order_id, item) VALUES ('%s', '%s')", $order_id, filter($item)));
             }
+            header("location: orders.php");
         }
     }
     function searchDate() {

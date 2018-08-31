@@ -26,7 +26,7 @@
                                 if ($order['user_id'] === $_SESSION['user_id']) {
                                     echo sprintf("<li>%s - %s &nbsp;
                                     <a href=\"delete.php?order_id=%s\" class=\"btn btn-outline-danger\">Delete</a>
-                                    <a href=\"edit.php?order_id=%s\" class=\"btn btn-outline-info\">Edit</a>
+                                    <a href=\"edit.php?\" class=\"btn btn-outline-info\">Edit</a>
                                     </li>", $order['name'], implode(', ', $order['items']), $order['order_id'], $order['order_id']);
                                 } else {
                                     echo sprintf("<li>%s - %s</li>", $order['name'], implode(', ', $order['items']));
