@@ -1,9 +1,7 @@
 <?php
     $image = "pics/kfc_banner.jpg";
     include "inc/header.php";
-
     $greeting = "Log In!";
-
 ?>
         <div class="container fill col-lg-12 bg-light text-center">
 
@@ -25,7 +23,7 @@
                 </div>
             </div>
             <!-- sign in form -->
-            <?php include 'inc/footer.php' ?>
+            <?php// include 'inc/footer.php' ?>
         </div>
 
 

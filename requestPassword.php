@@ -1,21 +1,17 @@
 <?php
     $image = "pics/spring_roll_banner.jpg";
-    include 'inc/header.php';
+    include 'inc/header.php'; ?>
 
-?>
-    <div class="container fill text-center col-lg-12 bg-light">
+            <div class="container fill text-center col-lg-12 bg-light">
         <div class="row">
-            <form class="col-lg-12" method="post" action="requestPassword.php">
-                <input type="hidden" name="submitted" value="true" />
-                <br><label>Email:</label>
-                <br><input class="col-3" type="text" name="email">
-                <br><input type="submit" class="btn btn-outline-dark" value="Send me an Email!">
-            </form>
-        </div> <!-- email form -->
-        <?php include 'inc/footer.php'; ?>
+        <form class="col-lg-12" method="post" action="requestPassword.php">
+            <input type="hidden" name="submitted" value="true" />
+            <br><label>Email:</label>
+            <br><input class="col-3" type="text" name="email">
+            <br><input type="submit" class="btn btn-outline-dark" value="Send me an Email!">
+        </form>
 
 <?php
-
 function requestPassword() {
 
     global $conn;
@@ -29,9 +25,8 @@ function requestPassword() {
     if (empty(filter($_POST['email']))) {
         $errors[] = "Please enter your email address!";
     }
-
-    if (mysqli_num_rows($result) == 0) {
-        $errors[] = "Sorry, this email address is not linked to an account!";
+    if (!filter_var(filter($_POST['email']), FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email address.";
     }
 
     if (!empty($errors)) {
@@ -45,7 +40,7 @@ function requestPassword() {
             'validator' => bin2hex($token)
         );
 
-        $url = "http://molly.localhost/dirtyFriday/resetPassword.php?" . http_build_query($resetTokens);
+        $url = "dirty_friday.test/resetPassword.php?" . http_build_query($resetTokens);
 
         $expires = new DateTime('NOW');
         $expires->add(new DateInterval('PT01H'));
@@ -54,14 +49,15 @@ function requestPassword() {
 
         $conn->query(sprintf("INSERT INTO reset (user_id, token, expires, selector) VALUES ('%s', '%s', '%s', '%s')",
             "$id_user", hash('sha256', $token), $expires->format('U'), $selector));
-
+        $message = "Please click the link below to change your password! If you did not make this request, you can ignore this email. If the link fails, please copy and paste it into the browser." . "\n" . "$url";
+        //var_dump($message); die();
         $sent = mail("$email", 'Dirty Fridays: Forgot my Password',
-            "Please click the link below to change your password! If you did not make this request, you can ignore this email." . "\n" . "$url");
+            $message);
 
 ?>
-    <div class="container text-center text-success">
+        <div class="container text-center text-success">
         <?php
-        if (false !== $sent) {
+        if (true === $sent) {
             echo "Your email has been sent!";
             session_destroy();
         }   }   } ?> </div>
@@ -72,3 +68,5 @@ function requestPassword() {
         }
         ?>
     </div>
+    </div> <!-- email form -->
+<?php include 'inc/footer.php'; ?>

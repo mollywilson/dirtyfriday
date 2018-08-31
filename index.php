@@ -5,7 +5,7 @@
 
     if (!isset($_SESSION['user_id'])) {
         // REDIRECT
-        header("Location: http://molly.localhost/dirtyFriday/login.php");
+        header("Location: login.php");
     }
 
     $username = ($conn->query(sprintf("SELECT * FROM users WHERE id = '%s'", $_SESSION['user_id'])))->fetch_assoc();
@@ -138,7 +138,7 @@
         }
 
         if (!preg_match('/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/', $_POST['search_date'])) {
-            $errors[] =  "Please enter a date in the correct format!";
+            $errors[] =  "Please enter a date in the correct format!" . "<br>\n" . "(yyyy-mm-dd)";
         }
             if (!empty($errors)) {
             echo $errors[0];

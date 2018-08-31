@@ -43,7 +43,7 @@
         $results = $conn->query(sprintf("SELECT * FROM reset WHERE selector = '%s'", $selector));
         $row = $results->fetch_assoc();
 
-        if ((mysqli_num_rows($results)) == 0) {
+        if ((mysqli_num_rows($results)) === 0) {
             $errors[] = "Unfortunately, the request cannot be processed.";
         }
 

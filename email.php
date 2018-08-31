@@ -37,7 +37,7 @@
 
         $result = $conn->query(sprintf("SELECT * FROM users WHERE email = '%s'", filter($_POST['newEmail'])));
 
-        if ((mysqli_num_rows($result)) == 1) {
+        if ((mysqli_num_rows($result)) === 1) {
             $errors[] = "Sorry, this email address is taken!";
         }
 
